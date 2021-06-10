@@ -78,4 +78,6 @@ public class LoginController {
 			}
 		}
 	}
+
+	private void pullTest() {}
 }
