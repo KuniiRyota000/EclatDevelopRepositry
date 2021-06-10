@@ -34,8 +34,10 @@ public class ItemShowCustomerController {
 		return "index";
 	}
 
-	@RequestMapping("/")
-	public String showItemNew(Model model) {
-		model.addAttribute("items")
+	/**新着一覧表示*/
+	@RequestMapping(path = "/item/list")
+	public String itemlist(int deleteFlag, Pageable pageable, Model model) {
+		model.addAttribute("items", itemRepository.findByDeleteFlagOrderByInsertDateDesc(deleteFlag, pageable));
+		return "index";
 	}
 }
