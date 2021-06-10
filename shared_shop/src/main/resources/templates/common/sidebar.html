@@ -24,6 +24,15 @@
 				</select> <input type="submit" value="検索" />
 			</form>
 		</div>
+		<h2 class="title">価格帯別検索</h2>
+		<div class="form">
+			<form th:action="@{/item/list/price/} + ${sortType}">
+				<p>上限金額</p>
+				<input type="text" name="" />
+				<p>下限金額</p>
+				<input type="text" name="" /><input type="submit" value="検索" />
+			</form>
+		</div>
 	</div>
 
 	<!--/* メニュー(運用管理者、及びシステム管理者用) */-->
