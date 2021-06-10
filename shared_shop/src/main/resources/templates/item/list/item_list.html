@@ -7,7 +7,7 @@
 </head>
 <body>
 <div>商品一覧</div>
-
+<table>
 <tr>
 <th>商品画像</th>
 <th>商品名</th>
@@ -17,10 +17,10 @@
 
 <tr th:each="item:${items}">
 <td th:text="${items.image}"></td>
-<td th:text="${items.name}"></td>
+<td th:text="${items.name}"><a href="/item/detail/{id}"></a></td>
 <td th:text="${items.price}"></td>
 <td th:text="${items.category}"></td>
 </tr>
-
+</table>
 </body>
 </html>
