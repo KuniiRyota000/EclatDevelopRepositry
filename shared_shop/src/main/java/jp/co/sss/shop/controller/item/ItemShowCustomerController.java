@@ -34,6 +34,11 @@ public class ItemShowCustomerController {
 		return "index";
 	}
 
+	@RequestMapping(path = "/item/list/category/1")
+	public String itemListCategory1() {
+		return "item_search_result.html";
+	}
+
 	@RequestMapping(path = "/item/detail")
 	public String itemDetail() {
 		return "item_detail.html";
