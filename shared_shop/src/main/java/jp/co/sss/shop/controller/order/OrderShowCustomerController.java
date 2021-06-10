@@ -92,7 +92,7 @@ public class OrderShowCustomerController {
 		// 注文情報リストをViewへ渡す
 		model.addAttribute("pages", orderList);
 		model.addAttribute("orders", orderBeanList);
-		model.addAttribute("url", "");
+		model.addAttribute("url", "/order/list");
 
 		return "order/list/order_list";
 
