@@ -79,5 +79,5 @@ public class LoginController {
 		}
 	}
 
-	private void pullTest() {}
+	private void pullTest() {int a=0; a=1;}
 }
