@@ -26,13 +26,13 @@ public class LoginController {
 	 * 会員情報
 	 */
 	@Autowired
-	UserRepository	userRepository;
+	UserRepository userRepository;
 
 	/**
 	 * セッション情報
 	 */
 	@Autowired
-	HttpSession	session;
+	HttpSession session;
 
 	/**
 	 * ログイン処理
@@ -65,14 +65,12 @@ public class LoginController {
 		if (result.hasErrors()) {
 			// 入力値に誤りがあった場合
 			return login(form);
-		}
-		else {
+		} else {
 			Integer authority = ((UserBean) session.getAttribute("user")).getAuthority();
 			if (authority.intValue() == 2) {
 				// 一般会員ログインした場合、トップ画面に遷移
-				return "";
-			}
-			else {
+				return "index.html";
+			} else {
 				// 運用管理者、もしくはシステム管理者としてログインした場合、管理者用メニュー画面に遷移
 				return "admin_menu";
 			}

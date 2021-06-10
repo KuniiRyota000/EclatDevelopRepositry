@@ -48,7 +48,7 @@ public class UserDeleteCustomerController {
 		// 会員情報をViewに渡す
 		model.addAttribute("user", userBean);
 
-		return "?";
+		return "user_delete_check.html ";
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class UserDeleteCustomerController {
 		// 会員情報を保存
 		userRepository.save(user);
 
-		return "??";
+		return "user_delete_complete.html";
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class UserDeleteCustomerController {
 	@RequestMapping(path = "/user/detail ", method = RequestMethod.GET)
 	public String deleteCompleteRedirect() {
 
-		return "???";
+		return "user_detail.html";
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class UserDeleteCustomerController {
 	 * @param form  会員情報フォーム
 	 * @return "" 会員情報 詳細画面へ
 	 */
-	@RequestMapping(path = "/", method = RequestMethod.POST)
+	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String deleteBack(Model model, @ModelAttribute UserForm form) {
 
 		// 削除対象の会員情報を取得
