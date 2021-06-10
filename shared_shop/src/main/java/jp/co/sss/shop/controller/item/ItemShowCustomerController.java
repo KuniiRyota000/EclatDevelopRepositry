@@ -33,4 +33,9 @@ public class ItemShowCustomerController {
 
 		return "index";
 	}
+
+	@RequestMapping("/")
+	public String showItemNew(Model model) {
+		model.addAttribute("items")
+	}
 }
