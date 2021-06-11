@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.sss.shop.repository.ItemRepository;
 
@@ -34,14 +35,29 @@ public class ItemShowCustomerController {
 		return "index";
 	}
 
-	@RequestMapping(path = "/item/list/category/1")
-	public String itemListCategory1() {
-		return "item_search_result.html";
+	@RequestMapping(path = "/item/list/category/1", method = RequestMethod.GET)
+	public String itemListCategory1(String categoryId) {
+		return "item_search_result";
+	}
+
+	@RequestMapping(path = "/item/list/category/{sortType}", method = RequestMethod.GET)
+	public String itemListCategory(String categoryId) {
+		return "item_search_result";
+	}
+
+	@RequestMapping(path = "/item/list/price", method = RequestMethod.GET)
+	public String itemListPrice(Integer minPrice, Integer maxPrice) {
+		return "item_search_result";
+	}
+
+	@RequestMapping(path = "/item/list/price/{sortType}", method = RequestMethod.GET)
+	public String itemListPriceSortType(Integer minPrice, Integer maxPrice) {
+		return "item_search_result";
 	}
 
 	@RequestMapping(path = "/item/detail")
 	public String itemDetail() {
-		return "item_detail.html";
+		return "item_detail";
 	}
 
 }

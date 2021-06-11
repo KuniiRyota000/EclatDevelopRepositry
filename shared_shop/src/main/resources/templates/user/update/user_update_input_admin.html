@@ -18,42 +18,49 @@
 							<span class="input_title">メールアドレス</span>
 							<input type="text" name="email" th:value="${user.email}"/>
 						</label>
-						
+
 					</li>
 					<li>
 						<label>
 							<span class="input_title">パスワード</span>
 							<input type="password" name="password" th:value="${user.password}"/>
 						</label>
-					    
+
 					</li>
 					<li>
 						<label>
 							<span class="input_title">氏名</span>
 							<input type="text" name="name" th:value="${user.name}"/>
 						</label>
-					    
+
 					</li>
 					<li>
 						<label>
 							<span class="input_title">郵便番号</span>
 							<input type="text" name="postalCode" th:value="${user.postalCode}"/>
 						</label>
-					   
+
 					</li>
 					<li>
 						<label>
 							<span class="input_title">住所</span>
 							<textarea name="address" rows="6" th:text="${user.address}"></textarea>
 						</label>
-					    
+
 					</li>
 					<li>
 						<label>
 							<span class="input_title">電話番号</span>
 							<input type="text" name="phoneNumber" th:value="${user.phoneNumber}"/>
 						</label>
-					   
+
+					</li>
+					<li th:if="${session.user.authority == 1}">
+						<label>
+							<span class="input_title">ポイント</span>
+							<input type="number" name="point" th:value="${user.point}"/>
+						</label>
+
 					</li>
 				</ul>
 				<input type="hidden" name="authority" th:value="${user.authority}" />

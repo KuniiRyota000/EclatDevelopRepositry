@@ -49,6 +49,6 @@ public class UserShowCustomerController {
 		// 会員情報をViewに渡す
 		model.addAttribute("user", userBean);
 
-		return "user_detail.html ";
+		return "user_detail";
 	}
 }
