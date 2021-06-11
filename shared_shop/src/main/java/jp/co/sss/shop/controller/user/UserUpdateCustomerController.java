@@ -45,7 +45,8 @@ public class UserUpdateCustomerController {
 	 * @param form  会員情報フォーム
 	 * @return "" 会員情報 変更入力画面へ
 	 **/
-	@RequestMapping(path = "", method = RequestMethod.POST)
+
+	@RequestMapping(path = "/user/update/input", method = RequestMethod.POST)
 	public String updateInput(boolean backFlg, Model model, @ModelAttribute UserForm form) {
 
 		// 戻るボタンかどうかを判定
@@ -71,7 +72,7 @@ public class UserUpdateCustomerController {
 			model.addAttribute("user", userBean);
 
 		}
-		return "";
+		return "user/update/user_update_input";
 	}
 
 	/**
@@ -84,8 +85,8 @@ public class UserUpdateCustomerController {
 	 * 入力値エラーあり："" 会員情報変更入力画面へ
 	 * 入力値エラーなし："" 会員情報 変更確認画面へ
 	 */
-	@RequestMapping(path = "", method = RequestMethod.POST)
-	public String updateCheck( Model model, @Valid @ModelAttribute UserForm form, BindingResult result) {
+	@RequestMapping(path = "/user/update/check", method = RequestMethod.POST)
+	public String updateCheck(Model model, @Valid @ModelAttribute UserForm form, BindingResult result) {
 		// 入力値にエラーがあった場合、会員情報 変更入力画面表示処理に戻る
 		if (result.hasErrors()) {
 
@@ -96,10 +97,10 @@ public class UserUpdateCustomerController {
 			// 会員情報をViewに渡す
 			model.addAttribute("user", userBean);
 
-			return "";
+			return "user/update/user_update_input";
 		}
 
-		return "";
+		return "user/update/user_update_check";
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class UserUpdateCustomerController {
 	 * @param form  会員情報
 	 * @return "" 会員情報 変更完了画面へ
 	 */
-	@RequestMapping(path = "", method = RequestMethod.POST)
+	@RequestMapping(path = "/user/update/complete", method = RequestMethod.POST)
 	public String updateComplete(Model model, @ModelAttribute UserForm form) {
 
 		// 変更対象の会員情報を取得
@@ -141,7 +142,7 @@ public class UserUpdateCustomerController {
 			session.setAttribute("user", userBean);
 		}
 
-		return "";
+		return "redirect:/user/update/complete";
 	}
 
 	/**
@@ -149,9 +150,9 @@ public class UserUpdateCustomerController {
 	 *
 	 * @return "" 会員情報 変更完了画面へ
 	 */
-	@RequestMapping(path = "", method = RequestMethod.GET)
+	@RequestMapping(path = "/user/update/complete", method = RequestMethod.GET)
 	public String updateCompleteRedirect() {
 
-		return "";
+		return "user/update/user_update_complete";
 	}
 }

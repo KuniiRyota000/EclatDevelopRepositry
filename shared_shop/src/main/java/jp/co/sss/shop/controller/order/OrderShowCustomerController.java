@@ -56,6 +56,7 @@ public class OrderShowCustomerController {
 	 *            ページング情報
 	 * @return "" 注文情報 一覧画面へ
 	 */
+
 	@RequestMapping(path = "/order/list", method = RequestMethod.GET)
 	public String showOrderList(Model model, @ModelAttribute OrderShowForm form,
 			Pageable pageable) {
@@ -151,4 +152,5 @@ public class OrderShowCustomerController {
 
 		return "order/detail/oder_detail";
 	}
+
 }
