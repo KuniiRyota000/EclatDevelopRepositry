@@ -25,24 +25,22 @@
 			</form>
 		</div>
 		<h2 class="title">価格帯別検索</h2>
-		<!-- 商品一覧画面以外で表示 -->
-		<!--/*<div class="form">
+		<div class="form">
+			<!-- 商品一覧画面以外で表示 -->
 			<form th:if="${sortType == null}" th:action="@{/item/list/price/1}">
 				<p>上限金額</p>
-				<input type="text" name="" />
+				<input type="text" name="maxPrice" />
 				<p>下限金額</p>
-				<input type="text" name="" /><input type="submit" value="検索" />
+				<input type="text" name="minPrice" /> <input type="submit" value="検索" />
 			</form>
-		</div>*/-->
-		<!-- 商品一覧画面上で表示 -->
-		<!--/*<div class="form">
+			<!-- 商品一覧画面上で表示 -->
 			<form th:unless="${sortType == null}" th:action="@{/item/list/price/} + ${sortType}">
 				<p>上限金額</p>
-				<input type="text" name="" />
+				<input type="text" name="maxPrice" />
 				<p>下限金額</p>
-				<input type="text" name="" /><input type="submit" value="検索" />
+				<input type="text" name="minPrice" /> <input type="submit" value="検索" />
 			</form>
-		</div>*/-->
+		</div>
 	</div>
 
 	<!--/* メニュー(運用管理者、及びシステム管理者用) */-->

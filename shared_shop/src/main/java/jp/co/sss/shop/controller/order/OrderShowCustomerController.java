@@ -94,7 +94,7 @@ public class OrderShowCustomerController {
 		model.addAttribute("orders", orderBeanList);
 		model.addAttribute("url", "/order/list");
 
-		return "order/list/order_list";
+		return "order/list/oder_list";
 
 	}
 
@@ -149,6 +149,6 @@ public class OrderShowCustomerController {
 		model.addAttribute("orderItemBeans", orderItemBeanList);
 		model.addAttribute("total", total);
 
-		return "order/detail/order_detail";
+		return "order/detail/oder_detail";
 	}
 }
