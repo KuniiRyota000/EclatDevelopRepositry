@@ -5,7 +5,44 @@
 <title>買い物かご | シェアードショップ</title>
 <meta charset="UTF-8" />
 </head>
-<body>
-	<a href="/shared_shop/order/regist/addressInput">注文</a>
+<body class="main">
+	<div th:if="${session.basketList} != null">
+	<table>
+		<tr>
+			<th>商品名</th>
+			<th>数</th>
+			<th>操作</th>
+			<th>在庫</th>
+		</tr>
+
+		<tr th:each="basket,st : ${session.basketList}">
+			<td th:text="${basket.name}"></td>
+			<td th:text="${basket.orderNum}"></td>
+			<td>
+				<form th:action="/shared_shop/basket/addOrderNum/${st.index}">
+					<input type="submit" value="+1" />
+				</form>
+				<form th:action="/shared_shop/basket/subOrderNum/${st.index}">
+					<input type="submit" value="-1" />
+				</form>
+
+				<form th:action="/shared_shop/basket/deleteItem/${st.index}">
+					<input type="submit" value="削除" />
+				</form>
+			</td>
+			<td th:text="${basket.stock}"></td>
+		</tr>
+	</table>
+
+	<form action="/shared_shop/order/regist/addressInput">
+		<input type="submit" value="ご注文のお手続き" />
+	</form>
+
+	<form action="/shared_shop/basket/deleteAllItem">
+		<input type="submit" value="ご注文のお手続き" />
+	</form>
+	</div>
+
+	<div th:if="${session.basketList} == null">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>>
 </body>
 </html>
