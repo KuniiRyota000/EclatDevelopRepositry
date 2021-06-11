@@ -20,4 +20,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	//価格帯曖昧検索
 	public Page<Item> findByPriceLike(Integer minPrice, Integer maxPrice);
+
+	//商品情報を売れ筋順で検索
+	public Page<Item> findBySalesFiguresOrderBySalesFiguresAsc(Integer salesFigures, Pageable pageable);
 }

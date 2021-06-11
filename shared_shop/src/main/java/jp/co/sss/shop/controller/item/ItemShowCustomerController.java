@@ -1,7 +1,10 @@
 package jp.co.sss.shop.controller.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.shop.repository.ItemRepository;
 
@@ -17,6 +20,26 @@ public class ItemShowCustomerController {
 	 */
 	@Autowired
 	ItemRepository itemRepository;
+
+	/**
+	 * トップ画面 表示処理
+	 *
+	 * @param model    Viewとの値受渡し
+	 * @param pageable ページング情報
+	 * @return "/" トップ画面へ
+	 */
+	@RequestMapping(path = "/")
+	public String index(Model model, Pageable pageable, Integer salesFigures) {
+		model.addAttribute("items1", itemRepository.findBySalesFiguresOrderBySalesFiguresAsc(salesFigures, pageable));
+		return "index";
+	}
+
+	/**新着一覧表示*/
+	@RequestMapping(path = "/item/list/{sortType}")
+	public String itemlist(int deleteFlag, Pageable pageable, Model model) {
+		model.addAttribute("items", itemRepository.findByDeleteFlagOrderByInsertDateDesc(deleteFlag, pageable));
+		return "item_list";
+	}
 
 	/**
 	 * トップ画面 表示処理
