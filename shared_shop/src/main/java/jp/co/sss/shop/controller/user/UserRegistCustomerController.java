@@ -115,5 +115,6 @@ public class UserRegistCustomerController {
 	@RequestMapping(path = "/user/regist/complete", method = RequestMethod.GET)
 	public String registCompleteRedirect() {
 		return "user/regist/user_regist_complete";
+
 	}
 }
