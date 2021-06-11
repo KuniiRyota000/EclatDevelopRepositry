@@ -6,7 +6,11 @@
 <meta charset="UTF-8" />
 </head>
 <body>
-<div>商品一覧</div>
+<h2 class="title">商品一覧</h2>
+<div>
+<span>新着順</span>
+<a href="/item/list/{sortType}">売れ筋順</a>
+</div>
 <table>
 <tr>
 <th>商品画像</th>
@@ -16,10 +20,10 @@
 </tr>
 
 <tr th:each="item:${items}">
-<td th:text="${items.image}"></td>
-<td th:text="${items.name}"><a href="/item/detail/{id}"></a></td>
-<td th:text="${items.price}"></td>
-<td th:text="${items.category}"></td>
+<td th:text="${item.image}"></td>
+<td><a th:href="{@/item/detail/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
+<td th:text="${item.price}"></td>
+<td th:text="${item.categoryName}"></td>
 </tr>
 </table>
 </body>
