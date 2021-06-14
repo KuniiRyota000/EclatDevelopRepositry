@@ -57,17 +57,6 @@ public class OrderShowCustomerController {
 	 * @return "" 注文情報 一覧画面へ
 	 */
 
-	/**
-	 * 注文情報詳細表示処理
-	 *
-	 * @param model
-	 *            Viewとの値受渡し
-	 * @param form
-	 *            表示用注文情報
-	 * @param session
-	 *            セッション情報
-	 * @return "" 注文情報 詳細画面へ
-	 */
 	@RequestMapping(path = "/order/list", method = RequestMethod.GET)
 	public String showOrderList(Model model, @ModelAttribute OrderShowForm form,
 			Pageable pageable) {

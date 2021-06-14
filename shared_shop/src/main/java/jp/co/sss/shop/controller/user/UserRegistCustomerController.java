@@ -96,6 +96,8 @@ public class UserRegistCustomerController {
 	public String registComplete(@ModelAttribute UserForm form) {
 		// 会員情報の生成
 		User user = new User();
+		//権限に2を追加
+		form.setAuthority(2);
 
 		// 入力値を会員情報にコピー
 		BeanUtils.copyProperties(form, user);
