@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.LoginForm;
 import jp.co.sss.shop.repository.UserRepository;
@@ -67,8 +66,7 @@ public class LoginController {
 		String email = form.getEmail();
 		String password = form.getPassword();
 		User user = userRepository.findByEmailAndPassword(email, password);
-
-		session.setAttribute("point", user.getPoint());
+		session.setAttribute("userInfo", user);
 
 		if (result.hasErrors()) {
 			//			model.addAttribute("errMessage1", "メールアドレス、もしくはパスワードが間違っています。");
@@ -79,13 +77,12 @@ public class LoginController {
 			// 入力値に誤りがあった場合
 			return login(form);
 		} else {
-			Integer authority = ((UserBean) session.getAttribute("user")).getAuthority();
 
-			if (authority.intValue() == 2) {
+			if (user.getAuthority() == 2) {
 				//				session.setAttribute("points", userRepository.getOne(id));
 
 				// 一般会員ログインした場合、トップ画面に遷移
-				return "index";
+				return "redirect:/";
 			} else {
 				// 運用管理者、もしくはシステム管理者としてログインした場合、管理者用メニュー画面に遷移
 				return "admin_menu";
