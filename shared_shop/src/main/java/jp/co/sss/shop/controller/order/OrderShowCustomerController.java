@@ -56,9 +56,9 @@ public class OrderShowCustomerController {
 	 *            ページング情報
 	 * @return "" 注文情報 一覧画面へ
 	 */
-	@RequestMapping(path = "", method = RequestMethod.GET)
+	@RequestMapping(path = "/order/list", method = RequestMethod.GET)
 	public String showOrderList(Model model, @ModelAttribute OrderShowForm form,
-	        Pageable pageable) {
+			Pageable pageable) {
 
 		// すべての注文情報を取得
 		Page<Order> orderList = orderRepository.findAllOrderByInsertDateDesc(pageable);
@@ -78,10 +78,10 @@ public class OrderShowCustomerController {
 			//orderレコードから紐づくOrderItemのListを取り出す
 			List<OrderItem> orderItemList = order.getOrderItemsList();
 
-			for(OrderItem orderItem :  orderItemList) {
+			for (OrderItem orderItem : orderItemList) {
 
 				//購入時単価 * 買った個数をもとめて、合計に加算
-				total += ( orderItem.getPrice() * orderItem.getQuantity() );
+				total += (orderItem.getPrice() * orderItem.getQuantity());
 			}
 			//Orderに改めて注文時点の単価をセット
 			orderBean.setTotal(total);
@@ -92,9 +92,9 @@ public class OrderShowCustomerController {
 		// 注文情報リストをViewへ渡す
 		model.addAttribute("pages", orderList);
 		model.addAttribute("orders", orderBeanList);
-		model.addAttribute("url", "");
+		model.addAttribute("url", "/order/list");
 
-		return "";
+		return "order/list/oder_list";
 
 	}
 
@@ -109,7 +109,7 @@ public class OrderShowCustomerController {
 	 *            セッション情報
 	 * @return "" 注文情報 詳細画面へ
 	 */
-	@RequestMapping(path = "")
+	@RequestMapping(path = "/order/detail/{id}")
 	public String showOrder(@PathVariable int id, Model model, @ModelAttribute OrderShowForm form) {
 
 		// 選択された注文情報に該当する情報を取得
@@ -149,6 +149,7 @@ public class OrderShowCustomerController {
 		model.addAttribute("orderItemBeans", orderItemBeanList);
 		model.addAttribute("total", total);
 
-		return "";
+		return "order/detail/oder_detail";
 	}
+
 }
