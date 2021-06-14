@@ -98,12 +98,15 @@ public class UserRegistCustomerController {
 		User user = new User();
 		//権限に2を追加
 		form.setAuthority(2);
+		//新規会員のためポイントは0
+		form.setPoint(0);
 
 		// 入力値を会員情報にコピー
 		BeanUtils.copyProperties(form, user);
 
 		// 会員情報を保存
 		userRepository.save(user);
+		session.setAttribute("userInfo", user);
 
 		return "redirect:/user/regist/complete";
 	}
