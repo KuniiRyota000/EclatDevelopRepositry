@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body class="admin item_detail_admin">
+<body class="item_detail">
 		<h2 class="title">商品詳細</h2>
 		<div class="item_info_form_area">
 			<div class="item_detail_area">
@@ -32,7 +31,7 @@
 			</div>
 
 <div class="detail_button_area">
-				<form th:action="@{/basket/add }">
+				<form th:action="@{/basket}">
 				    <input type="submit" value="買い物かごへ入れる"  class="back_button" />
 				</form>
 				</div>
