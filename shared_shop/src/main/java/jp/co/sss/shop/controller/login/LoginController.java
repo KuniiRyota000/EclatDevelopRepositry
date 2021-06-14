@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jp.co.sss.shop.bean.UserBean;
+import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.LoginForm;
 import jp.co.sss.shop.repository.UserRepository;
 
@@ -62,20 +62,23 @@ public class LoginController {
 	 */
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public String doLogin(@Valid @ModelAttribute LoginForm form, BindingResult result, Model model) {
+		String email = form.getEmail();
+		String password = form.getPassword();
+		User user = userRepository.findByEmailAndPassword(email, password);
+		session.setAttribute("userInfo", user);
 
 		if (result.hasErrors()) {
-			model.addAttribute("errMessage1", "メールアドレス、もしくはパスワードが間違っています。");
-			model.addAttribute("errMessage2", "パスワードは正しい形式で入力してください。");
-			model.addAttribute("errMessage3", "パスワードは必須項目です。");
-			model.addAttribute("errMessage4", "メールアドレスは必須項目です。");
-			model.addAttribute("errMessage5", "パスワードは8文字以上16文字以内で入力してください");
+//			model.addAttribute("errMessage1", "メールアドレス、もしくはパスワードが間違っています。");
+//			model.addAttribute("errMessage2", "パスワードは正しい形式で入力してください。");
+//			model.addAttribute("errMessage3", "パスワードは必須項目です。");
+//			model.addAttribute("errMessage4", "メールアドレスは必須項目です。");
+//			model.addAttribute("errMessage5", "パスワードは8文字以上16文字以内で入力してください");
 			// 入力値に誤りがあった場合
 			return login(form);
 		} else {
-			Integer authority = ((UserBean) session.getAttribute("user")).getAuthority();
-			if (authority.intValue() == 2) {
+			if (user.getAuthority() == 2) {
 				// 一般会員ログインした場合、トップ画面に遷移
-				return "index.html";
+				return "redirect:/";
 			} else {
 				// 運用管理者、もしくはシステム管理者としてログインした場合、管理者用メニュー画面に遷移
 				return "admin_menu";
