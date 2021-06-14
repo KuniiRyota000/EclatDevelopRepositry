@@ -6,6 +6,51 @@
 <meta charset="UTF-8" />
 </head>
 <body>
-	<a href="/shared_shop/order/regist/addressInput">注文</a>
+	<h2 class="title">お届け先入力</h2>
+
+	<div class="user_info_form_area">
+		<form method="post" action="/shared_shop/payment/input">
+			<br />
+			<ul class="input_list">
+				<li>
+					<label>
+						<span class="input_title">
+							郵便番号
+						</span>
+						<input type="text" name="postalCode" th:value="${session.user.postalCode}"/>
+					</label>
+				</li>
+				<li>
+					<label>
+						<span class="input_title">
+							住所
+						</span>
+						<textarea name="address" rows="6" th:value="${session.user.address}"></textarea>
+					</label>
+				</li>
+				<li>
+					<label>
+						<span class="input_title">
+							氏名
+						</span>
+						<input type="text" name="name" th:value="${session.user.name}"/>
+					</label>
+				</li>
+				<li>
+					<label>
+						<span class="input_title">
+							電話番号
+						</span>
+						<input type="text" name="phoneNumber" th:value="${session.user.phoneNumber}"/>
+					</label>
+				</li>
+			</ul>
+			<input type="submit" value="次へ" class="send_button" />
+			<input type="hidden" name="backflg" value="false" />
+		</form>
+		<form action="/shared_shop/basket">
+			<input type="submit" value="戻る" class="back_button" />
+		</form>
+	</div>
 </body>
 </html>

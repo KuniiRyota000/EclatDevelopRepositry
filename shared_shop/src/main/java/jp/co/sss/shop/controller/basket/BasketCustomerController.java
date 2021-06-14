@@ -129,21 +129,32 @@ public class BasketCustomerController {
 		return "redirect:/basket";
 	}
 
+	/**
+	 * お届け先入力画面へ遷移
+	 */
 	@RequestMapping("/order/regist/addressInput")
 	public String orderAddressInput() {
 		return "order/regist/order_address_input";
 	}
 
+	/**
+	 * 支払方法選択
+	 */
 	@RequestMapping("/order/regist/paymentInput")
 	public String orderPaymentInput() {
 		return "order/regist/order_payment_input";
 	}
 
+	/**
+	 * 注文確認
+	 */
 	@RequestMapping("/order/regist/check")
 	public String orderCheck() {
 		return "order/regist/order_check";
 	}
-
+	/**
+	 * 注文完了
+	 */
 	@RequestMapping("/order/regist/complete")
 	private String orderComplete() {
 		return "order/regist/order_complete";
