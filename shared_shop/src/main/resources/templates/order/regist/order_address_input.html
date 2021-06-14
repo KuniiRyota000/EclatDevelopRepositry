@@ -9,7 +9,7 @@
 	<h2 class="title">お届け先入力</h2>
 
 	<div class="user_info_form_area">
-		<form method="post" action="/shared_shop/payment/input">
+		<form method="post" action="/shared_shop/regist/addressInputComplete">
 			<br />
 			<ul class="input_list">
 				<li>
@@ -17,7 +17,7 @@
 						<span class="input_title">
 							郵便番号
 						</span>
-						<input type="text" name="postalCode" th:value="${session.user.postalCode}"/>
+						<input type="text" name="postalCode" th:value="${session.userInfo.postalCode}"/>
 					</label>
 				</li>
 				<li>
@@ -25,7 +25,7 @@
 						<span class="input_title">
 							住所
 						</span>
-						<textarea name="address" rows="6" th:value="${session.user.address}"></textarea>
+						<textarea name="address" rows="6" th:text="${session.userInfo.address}"></textarea>
 					</label>
 				</li>
 				<li>
@@ -33,7 +33,7 @@
 						<span class="input_title">
 							氏名
 						</span>
-						<input type="text" name="name" th:value="${session.user.name}"/>
+						<input type="text" name="name" th:value="${session.userInfo.name}"/>
 					</label>
 				</li>
 				<li>
@@ -41,12 +41,11 @@
 						<span class="input_title">
 							電話番号
 						</span>
-						<input type="text" name="phoneNumber" th:value="${session.user.phoneNumber}"/>
+						<input type="text" name="phoneNumber" th:value="${session.userInfo.phoneNumber}"/>
 					</label>
 				</li>
 			</ul>
 			<input type="submit" value="次へ" class="send_button" />
-			<input type="hidden" name="backflg" value="false" />
 		</form>
 		<form action="/shared_shop/basket">
 			<input type="submit" value="戻る" class="back_button" />

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.sss.shop.bean.BasketBean;
+import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.entity.Item;
+import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.repository.ItemRepository;
 import jp.co.sss.shop.repository.OrderItemRepository;
 import jp.co.sss.shop.repository.OrderRepository;
@@ -138,8 +141,22 @@ public class BasketCustomerController {
 	 */
 	@RequestMapping("/order/regist/addressInput")
 	public String orderAddressInput() {
-		
 		return "order/regist/order_address_input";
+	}
+
+
+	@RequestMapping(path="/regist/addressInputComplete", method = RequestMethod.POST)
+	public String addressInputComplete(OrderForm form) {
+		OrderBean orderInfo=new OrderBean();
+
+		orderInfo.setPostalCode(form.getPostalCode());
+		orderInfo.setAddress(form.getAddress());
+		orderInfo.setName(form.getName());
+		orderInfo.setPhoneNumber(form.getPhoneNumber());
+
+		session.setAttribute("orderInfo", orderInfo);
+
+		return "redirect:/order/regist/paymentInput";
 	}
 
 	/**
