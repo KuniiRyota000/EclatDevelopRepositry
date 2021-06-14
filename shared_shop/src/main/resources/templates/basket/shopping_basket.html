@@ -6,6 +6,8 @@
 <meta charset="UTF-8" />
 </head>
 <body class="main">
+	<h2 class="title">買い物かご</h2>
+
 	<div th:if="${session.basketList} != null">
 	<table>
 		<tr>
@@ -34,6 +36,7 @@
 		</tr>
 	</table>
 
+	</div>
 	<form action="/shared_shop/order/regist/addressInput">
 		<input type="submit" value="ご注文のお手続き" />
 	</form>
@@ -41,8 +44,7 @@
 	<form action="/shared_shop/basket/deleteAllItem">
 		<input type="submit" value="買い物かごを空にする" />
 	</form>
-	</div>
 
-	<div th:if="${session.basketList} == null">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>>
+	<div th:if="${session.basketList} == null">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
 </body>
 </html>

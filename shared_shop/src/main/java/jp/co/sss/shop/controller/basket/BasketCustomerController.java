@@ -54,7 +54,10 @@ public class BasketCustomerController {
 		 *
 		 * 同一商品がある場合：注文数 +1
 		 */
+		if(basketList!=null) {
 		for(int i = 0; i <= basketList.size(); i++) {
+			checkBasket = basketList.get(i);
+
 			if(checkBasket.getId() == itemId) {
 				checkBasket.setOrderNum(checkBasket.getOrderNum()+1);
 				basketList.set(i, checkBasket);
@@ -62,6 +65,7 @@ public class BasketCustomerController {
 
 				return "redirect:/basket";
 			}
+		}
 		}
 
 		//買い物かごに商品追加
@@ -134,6 +138,7 @@ public class BasketCustomerController {
 	 */
 	@RequestMapping("/order/regist/addressInput")
 	public String orderAddressInput() {
+		
 		return "order/regist/order_address_input";
 	}
 
