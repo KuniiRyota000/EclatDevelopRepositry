@@ -154,5 +154,6 @@ public class UserUpdateCustomerController {
 	public String updateCompleteRedirect() {
 
 		return "user/update/user_update_complete";
+
 	}
 }

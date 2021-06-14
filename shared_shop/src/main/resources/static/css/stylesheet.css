@@ -16,6 +16,12 @@ p {
 }
 
 /* ---- 入力フォーム(ログイン) ---- */
+
+div.errMessage{
+	 color: red;
+	text-align: left;
+}
+
 .login_form {
 	margin-top: 30px;
 }
@@ -249,12 +255,12 @@ p {
 }
 
 .input_list .error_message {
-	
+
 	display: block;
 	line-height: 0.9em;
 	font-size: 0.9rem;
 	color: #C00;
-	
+
 }
 
 .input_list .error_list{
@@ -336,6 +342,8 @@ p {
 .item_detail_area + .user_info_form {
 	clear: both;
 }
+
+
 
 /* スキルアップテクニック9
  * :first-of-typeは擬似クラスの一種で、
