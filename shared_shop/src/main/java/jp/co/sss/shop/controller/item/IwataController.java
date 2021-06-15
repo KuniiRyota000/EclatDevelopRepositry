@@ -95,10 +95,23 @@ public class IwataController {
 	//	return "/item/item_search_result/item_search_result";
 	//}
 	//
-	@RequestMapping(path = "/item/list/price", method = RequestMethod.GET)
-	public String itemListPrice(Integer minPrice, Integer maxPrice, Model model, Pageable pageable) {
-		model.addAttribute("item", itemRepository.findByPriceBetween(minPrice, maxPrice, pageable));
-		return "/item/item_search_result/item_search_result";
+	@RequestMapping(path = "/item/list/price/1", method = RequestMethod.GET) //delet
+	public String itemListPrice(Item item, String min, String max, Model model, Pageable pageable) {
+		if (max.isEmpty()) {
+			max = min;
+		} else if (min.isEmpty()) {
+			min = "0";
+		}
+		Integer minPrice = Integer.valueOf(min);
+		Integer maxPrice = Integer.valueOf(max);
+
+		Page<Item> itemList = itemRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+		// エンティティ内の検索結果をJavaBeansにコピー
+		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+		model.addAttribute("pages", itemList);
+		model.addAttribute("items", itemBeanList);
+		//		model.addAttribute("items", itemRepository.findByPriceBetween(minPrice, maxPrice, pageable));
+		return "item/item_search_result/item_list";
 	}
 
 	//	}

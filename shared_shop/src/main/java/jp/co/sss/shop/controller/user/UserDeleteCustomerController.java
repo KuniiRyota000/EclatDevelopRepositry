@@ -1,5 +1,7 @@
 package jp.co.sss.shop.controller.user;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +51,7 @@ public class UserDeleteCustomerController {
 		// 会員情報をViewに渡す
 		model.addAttribute("user", userBean);
 
-		return "user_delete_check.html ";
+		return "user/delete/user_delete_check";
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class UserDeleteCustomerController {
 		// 会員情報を保存
 		userRepository.save(user);
 
-		return "user_delete_complete.html";
+		return "user/delete/user_delete_complete";
 	}
 
 	/**
@@ -82,6 +84,13 @@ public class UserDeleteCustomerController {
 	@RequestMapping(path = "/user/detail ", method = RequestMethod.GET)
 	public String deleteCompleteRedirect() {
 
-		return "user_detail.html";
+		return "user/delete/user_detail";
+	}
+
+	@RequestMapping(path = "/delete_back")
+	public String index(HttpSession session) {
+		session.invalidate();
+		return "index";
+
 	}
 }
