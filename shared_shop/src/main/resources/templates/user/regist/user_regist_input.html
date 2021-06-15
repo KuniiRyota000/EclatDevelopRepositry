@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <title>会員登録入力 | シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -49,24 +49,17 @@
 								<span class="input_title">電話番号</span>
 								<input type="text" name="phoneNumber" th:value="${userForm.phoneNumber}" />
 							</label>
-							<!--/*
 						</li>
-						<li th:if="${session.user.authority == 0 or session.user.authority == 1}">
-							<span class="input_title">権限</span>
-							<div th:if="${session.user.authority == 0}" class="input">
-								<input type="radio" name="authority" value="0" th:checked="${userForm.authority == 0}" />システム管理者
-								<input type="radio" name="authority" value="1" th:checked="${userForm.authority == 1}" />運用管理者
-								<span th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}"></span>
-							</div>
-								<label th:if="${session.user.authority == 1}" class="radio_label">運用管理者<br />
-								<input type="hidden" name="authority" value="1" />
+						<li>
+							<label>
+								<span></span>
+								<input type="hidden" name="point" th:value="0" />
 							</label>
 						</li>
-						*/-->
 					</ul>
 				<input type="submit" value="確認" class="send_button" />
 			</form>
-			<form th:action="@{/user/list}">
+			<form th:action="@{/}">
 				<input type="submit" value="戻る" class="back_button"/>
 			</form>
 		</div>
