@@ -8,11 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.sss.shop.bean.ItemBean;
 import jp.co.sss.shop.entity.Item;
+import jp.co.sss.shop.entity.OrderItem;
 import jp.co.sss.shop.repository.ItemRepository;
+import jp.co.sss.shop.repository.OrderItemRepository;
 import jp.co.sss.shop.util.BeanCopy;
 import jp.co.sss.shop.util.Constant;
 
@@ -28,6 +29,8 @@ public class ItemShowCustomerController {
 	 */
 	@Autowired
 	ItemRepository itemRepository;
+	@Autowired
+	OrderItemRepository orderItemRepository;
 
 	/**
 	 * トップ画面 表示処理
@@ -38,22 +41,41 @@ public class ItemShowCustomerController {
 	 */
 	@RequestMapping(path = "/")
 	public String index(Model model, Pageable pageable) {
-		Page<Item> pageList = itemRepository.findAllByOrderBySalesFiguresDesc(pageable);
-		List<Item> itemList = pageList.getContent();
+		Page<OrderItem> pageList = orderItemRepository.findAll(pageable);
+		List<OrderItem> itemList = pageList.getContent();
 		model.addAttribute("pages", pageList);
 		model.addAttribute("items", itemList);
 		return "index";
 	}
 
 	/**新着一覧表示*/
-	@RequestMapping(path = "/item/list/{sortType}", method = RequestMethod.GET)
-	public String itemlist(int deleteFlag, Pageable pageable, Model model) {
+	@RequestMapping(path = "/item/list/1")
+	public String itemlist(Pageable pageable, Model model) {
 		Page<Item> itemList = itemRepository.findByDeleteFlagOrderByInsertDateDesc(Constant.NOT_DELETED, pageable);
+
+		// エンティティ内の検索結果をJavaBeansにコピー
 		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+
+		// 商品情報をViewへ渡す
 		model.addAttribute("pages", itemList);
-		model.addAttribute("item", itemBeanList);
-		model.addAttribute("url", "/item/list/1");
-		return "item_list";
+		model.addAttribute("items", itemBeanList);
+		model.addAttribute("url", "/item/list");
+
+		return "item/list/item_list";
+	}
+
+	@RequestMapping(path = "/item/list/2")
+	public String itemByList(Pageable pageable, Model model) {
+		Page<Item> itemList = itemRepository.findByDeleteFlagOrderBySalesFiguresDesc(Constant.NOT_DELETED, pageable);
+
+		// エンティティ内の検索結果をJavaBeansにコピー
+		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+
+		// 商品情報をViewへ渡す
+		model.addAttribute("pages", itemList);
+		model.addAttribute("items", itemBeanList);
+		model.addAttribute("url", "/item/list");
+		return "item/list/item_list_2";
 	}
 }
 /**
