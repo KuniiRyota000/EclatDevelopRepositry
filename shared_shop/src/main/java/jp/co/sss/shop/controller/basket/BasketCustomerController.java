@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.sss.shop.bean.BasketBean;
+import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.entity.Item;
+import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.repository.ItemRepository;
 import jp.co.sss.shop.repository.OrderItemRepository;
 import jp.co.sss.shop.repository.OrderRepository;
@@ -54,7 +57,10 @@ public class BasketCustomerController {
 		 *
 		 * 同一商品がある場合：注文数 +1
 		 */
+		if(basketList!=null) {
 		for(int i = 0; i <= basketList.size(); i++) {
+			checkBasket = basketList.get(i);
+
 			if(checkBasket.getId() == itemId) {
 				checkBasket.setOrderNum(checkBasket.getOrderNum()+1);
 				basketList.set(i, checkBasket);
@@ -62,6 +68,7 @@ public class BasketCustomerController {
 
 				return "redirect:/basket";
 			}
+		}
 		}
 
 		//買い物かごに商品追加
@@ -129,21 +136,47 @@ public class BasketCustomerController {
 		return "redirect:/basket";
 	}
 
+	/**
+	 * お届け先入力画面へ遷移
+	 */
 	@RequestMapping("/order/regist/addressInput")
 	public String orderAddressInput() {
 		return "order/regist/order_address_input";
 	}
 
+
+	@RequestMapping(path="/regist/addressInputComplete", method = RequestMethod.POST)
+	public String addressInputComplete(OrderForm form) {
+		OrderBean orderInfo=new OrderBean();
+
+		orderInfo.setPostalCode(form.getPostalCode());
+		orderInfo.setAddress(form.getAddress());
+		orderInfo.setName(form.getName());
+		orderInfo.setPhoneNumber(form.getPhoneNumber());
+
+		session.setAttribute("orderInfo", orderInfo);
+
+		return "redirect:/order/regist/paymentInput";
+	}
+
+	/**
+	 * 支払方法選択
+	 */
 	@RequestMapping("/order/regist/paymentInput")
 	public String orderPaymentInput() {
 		return "order/regist/order_payment_input";
 	}
 
+	/**
+	 * 注文確認
+	 */
 	@RequestMapping("/order/regist/check")
 	public String orderCheck() {
 		return "order/regist/order_check";
 	}
-
+	/**
+	 * 注文完了
+	 */
 	@RequestMapping("/order/regist/complete")
 	private String orderComplete() {
 		return "order/regist/order_complete";

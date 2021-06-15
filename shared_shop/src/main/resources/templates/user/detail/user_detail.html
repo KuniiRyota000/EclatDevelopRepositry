@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -28,22 +29,30 @@
 					<span class="input_title">電話番号</span>
 					<span class="input_value" th:text="${user.phoneNumber}"></span>
 				</li>
+					<li>
+					<span class="input_title">ポイント</span>
+					<span class="input_value" th:text="${user.point}"></span>
+				</li>
 				</ul>
 		</div>
 
-		<div class="detail_button_area">
-			<form th:action="@{/item/detail/{id}}">
+			<div class="detail_button_area">
+			<form th:action="@{/user/list}">
 				<input type="submit" value="戻る" />
 			</form>
-			<form th:action="@{/user/update}" method="post" th:if="${user.authority != 0}">
+			<form th:action="@{/user/update/input/admin}" method="post" th:if="${user.authority != 0}">
 				<input type="hidden" name="id" th:value="${user.id}" />
 				<input type="submit" value="変更" />
 			</form>
-			<form th:action="@{/user/delete}" method="post" th:if="${user.authority == 0 and session.user.authority == 0}">
+			<form th:action="@{/user/update/input/admin}" method="post" th:if="${user.authority == 0 and session.user.authority == 0}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="退会" />
-				</form>
-				</div>
+				<input type="submit" value="変更" />
+			</form>
+			<form th:action="@{/user/delete/check/admin}" method="post" th:if="${user.authority != 0}" >
+				<input type="hidden" name="id" th:value="${user.id}" />
+				<input type="submit" value="削除" class="delete" />
+			</form>
+		</div>
 
 </body>
 </html>
