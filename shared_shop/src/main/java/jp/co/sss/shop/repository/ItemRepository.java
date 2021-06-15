@@ -25,7 +25,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public Page<Item> findByPriceBetween(Integer minPrice, Integer maxPrice, Pageable pageable);
 
 	//商品情報を売れ筋順で検索
-	public Page<Item> findAllByOrderBySalesFiguresDesc(Pageable pageable);
+	public Page<Item> findByDeleteFlagOrderBySalesFiguresDesc(int deleteFlag, Pageable pageable);
 
 	//該当するカテゴリ情報を新着順で検索
 	@Query("SELECT i FROM Item i WHERE i.category.id=:categoryId ORDER BY insertDate DESC")
