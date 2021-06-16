@@ -37,7 +37,7 @@
 		</div>
 
 	<div class="detail_button_area">
-			<form th:action="@{/item/detail/{id}}">
+			<form th:action="@{/}">
 				<input type="submit" value="戻る" />
 			</form>
 				<form th:action="@{/user/update/input}" method="post" th:if="${user.authority == 2}">
@@ -45,7 +45,7 @@
 				<input type="submit" value="変更" />
 			</form>
 
-			<form th:action="@{/user/delete}" method="post" th:if="${user.authority == 2}">
+			<form th:action="@{/user/delete/check}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
 				<input type="submit" value="退会" />
 				</form>
