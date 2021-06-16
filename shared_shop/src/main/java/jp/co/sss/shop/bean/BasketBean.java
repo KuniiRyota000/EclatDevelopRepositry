@@ -21,12 +21,27 @@ public class BasketBean {
 	/**
 	 * 商品在庫数
 	 */
-	private Integer	stock;
+	private Integer	 stock;
 
 	/**
 	 * 商品注文個数 初期値 1
 	 */
-	private Integer	orderNum	= 1;
+	private Integer orderNum	= 1;
+
+	/**
+	 * 商品画像
+	 */
+	private String image;
+
+	/**
+	 * 単価
+	 */
+	private Integer	 price;
+
+	/**
+	 * 小計
+	 */
+	private Integer	 subtotal;
 
 	/**
 	 * コンストラクタ
@@ -36,7 +51,7 @@ public class BasketBean {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param id  商品ID
 	 * @param name  商品名
 	 * @param stock 商品在庫数
@@ -49,7 +64,7 @@ public class BasketBean {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param id  商品ID
 	 * @param name  商品名
 	 * @param stock  商品在庫数
@@ -92,6 +107,30 @@ public class BasketBean {
 
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Integer getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Integer subtotal) {
+		this.subtotal = subtotal;
 	}
 
 }

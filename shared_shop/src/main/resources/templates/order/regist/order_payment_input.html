@@ -6,6 +6,48 @@
 <meta charset="UTF-8" />
 </head>
 <body>
-	<a href="/shared_shop/order/regist/paymentInput">注文</a>
+	<h2 class="title">お支払い方法選択</h2>
+
+	<div class="user_info_form_area">
+		<form method="post" action="/shared_shop/regist/paymentInputComplete">
+			<ul class="payment_method_select">
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="1"
+						checked="checked"/>
+						クレジットカード
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="2" />
+						銀行振り込み
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="3" />
+						着払い
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="4" />
+						電子マネー
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="5" />
+						コンビニ決済
+					</label>
+				</li>
+			</ul>
+			<input type="submit" class="send_button" value="次へ" />
+		</form>
+		<form action="/shared_shop/regist/addressInput">
+			<input type="submit" value="戻る" class="back_button" />
+		</form>
+	</div>
 </body>
 </html>

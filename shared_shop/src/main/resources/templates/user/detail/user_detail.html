@@ -36,23 +36,20 @@
 				</ul>
 		</div>
 
-			<div class="detail_button_area">
-			<form th:action="@{/user/list}">
+	<div class="detail_button_area">
+			<form th:action="@{/item/detail/{id}}">
 				<input type="submit" value="戻る" />
 			</form>
-			<form th:action="@{/user/update/input/admin}" method="post" th:if="${user.authority != 0}">
+				<form th:action="@{/user/update/input}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
 				<input type="submit" value="変更" />
 			</form>
-			<form th:action="@{/user/update/input/admin}" method="post" th:if="${user.authority == 0 and session.user.authority == 0}">
+
+			<form th:action="@{/user/delete}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="変更" />
-			</form>
-			<form th:action="@{/user/delete/check/admin}" method="post" th:if="${user.authority != 0}" >
-				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="削除" class="delete" />
-			</form>
-		</div>
+				<input type="submit" value="退会" />
+				</form>
+				</div>
 
 </body>
 </html>
