@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.UserForm;
 import jp.co.sss.shop.repository.UserRepository;
@@ -107,6 +108,15 @@ public class UserRegistCustomerController {
 		// 会員情報を保存
 		userRepository.save(user);
 		session.setAttribute("userInfo", user);
+		//userBeanを宣言
+		UserBean userBean = new UserBean();
+
+		userBean.setId(user.getId());
+		userBean.setName(user.getName());
+		userBean.setAuthority(user.getAuthority());
+
+		// セッションスコープにログインしたユーザの情報を登録
+		session.setAttribute("user", userBean);
 
 		return "redirect:/user/regist/complete";
 	}

@@ -7,7 +7,7 @@
 <div th:fragment="layout-header" class="container">
 	<h1 class="site_title">シェアードショップ</h1>
 	<div th:if="${session.userInfo != null and session.userInfo.authority == 2}" class="user_info">
-		<a th:href="@{/user/detail}" th:text="${session.userInfo.name}"></a>さん、ようこそ <a th:text="${session.userInfo.point}+ポイント"></a>| <a th:href="@{/logout}">ログアウト</a>
+		<a th:href="@{/user/detail/{id}(id=${session.userInfo.id})}" th:text="${session.userInfo.name}"></a>さん、ようこそ <a th:text="${session.userInfo.point}+ポイント"></a>| <a th:href="@{/logout}">ログアウト</a>
 	</div>
 	<div th:if="${session.userInfo != null and (session.userInfo.authority == 0 or session.userInfo.authority == 1)}" class="user_info">
 		<a th:href="@{/user/detail/admin/{id}(id=${session.userInfo.id})}" th:text="${session.userInfo.name}"></a>さん、ようこそ | <a th:href="@{/logout}">ログアウト</a>
