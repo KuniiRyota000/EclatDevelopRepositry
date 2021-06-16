@@ -23,11 +23,14 @@
 <th>カテゴリ</th>
 </tr>
 <tr th:each="item:${items}">
-<td th:text="${item.image}" ><span th:if="${item.image != null}">
-						<img th:src="@{/img/{image}(image=${item.image})}"></img>
+<td><span th:if="${item.image != null}">
+						<img th:src="@{/img/{image}(image=${item.image})}" class="item_image_list"
+
+						></img>
 					</span>
 					<span th:if="${item.image == null}">
-					<img th:src="@{/img/common/no_image.jpg}"></img>
+<!-- common/no_image.jpg -->
+					<img th:src="@{/img/common/no_image.jpg}" class="item_image_list"></img>
 					</span>
                  </td>
 <td><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
