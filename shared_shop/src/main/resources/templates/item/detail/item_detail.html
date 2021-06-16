@@ -32,7 +32,7 @@
 			</div>
 
 <div class="detail_button_area">
-				<form th:action="@{/basket/add }">
+				<form th:action="@{/basket/input/{itemId}(itemId=${item.id})}">
 				    <input type="submit" value="買い物かごへ入れる"  class="back_button" />
 				</form>
 				</div>
