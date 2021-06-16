@@ -15,12 +15,12 @@
 
 	<!--/* 注文情報が存在する場合 */-->
 	<div class="item" th:if="!${#lists.isEmpty(items)}" th:each="item:${items}">
-		<div class="item_name" th:text="${item.item.name}"></div>
+		<div class="item_name" th:text="${item.name}"></div>
 
-		<span th:if="${item.item.image != null}">
-			<img th:src="@{/img/{image}(image=${item.image})}"></img>
+		<span th:if="${item.image != null}">
+			<a th:href="@{/item/detail/{id}(id=${item.id})}"><img th:src="@{/img/{image}(image=${item.image})}"></img></a>
 		</span>
-		<span th:if="${item.item.image == null}">
+		<span th:if="${item.image == null}">
 			<a th:href="@{/item/detail/{id}(id=${item.id})}"><img th:src="@{/img/common/no_image.jpg}"></img></a>
 		</span>
     </div>

@@ -342,6 +342,10 @@ div.errMessage{
 .item_detail_area + .user_info_form {
 	clear: both;
 }
+.item_image_list{
+	width:50px;
+	height:38px;
+}
 
 
 
