@@ -10,7 +10,7 @@
 		注文内容最終確認
 	</h2>
 	<br />
-	<table class="list_table item_detail">
+	<table class="list_table item_detail" th:if="${sesson.basketList} != null">
 		<tr>
 			<th>
 				商品名
@@ -31,7 +31,14 @@
 
 		<tr th:each="basketList: ${sesson.basketList}">
 			<td th:text="${basketList.name}"></td>
-			<td th:text="${basketList.image}"></td>
+			<td th:text="${basketList.image}">
+				<span th:if="${basketList.image != null}">
+					<img th:src="@{/img/{image}(image=${basketList.image})}"></img>
+				</span>
+				<span th:if="${basketList.image == null}">
+					<img th:src="@{/img/common/no_image.jpg}"></img>
+				</span>
+			</td>
 			<td th:text="${basketList.price}"></td>
 			<td th:text="${basketList.stock}"></td>
 			<td th:text="${basketList.subtotal}"></td>
