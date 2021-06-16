@@ -34,6 +34,7 @@ public class BasketCustomerController {
 	HttpSession session;
 
 	public static List<BasketBean> basketList = new ArrayList<BasketBean>();
+	public static OrderBean orderInfo=new OrderBean();
 
 	/**
 	 * 買い物かご表示
@@ -49,8 +50,8 @@ public class BasketCustomerController {
 	@RequestMapping("/basket/input/{itemId}")
 	public String inputItem(@PathVariable int itemId) {
 
-		//同一商品チェック用
 		BasketBean checkBasket=new BasketBean();
+		int subtotal=0;
 
 		/*
 		 * 同一商品チェック
@@ -63,6 +64,8 @@ public class BasketCustomerController {
 
 			if(checkBasket.getId() == itemId) {
 				checkBasket.setOrderNum(checkBasket.getOrderNum()+1);
+				subtotal = checkBasket.getPrice()*checkBasket.getStock();
+				checkBasket.setSubtotal(subtotal);
 				basketList.set(i, checkBasket);
 				session.setAttribute("basketList", basketList);
 
@@ -78,6 +81,10 @@ public class BasketCustomerController {
 		basket.setName(item.getName());
 		basket.setStock(item.getStock());
 		basket.setOrderNum(basket.getOrderNum());
+		basket.setImage(item.getImage());
+		basket.setPrice(item.getPrice());
+		subtotal = item.getPrice()*basket.getStock();
+		basket.setSubtotal(subtotal);
 
 		basketList.add(basket);
 
@@ -144,11 +151,11 @@ public class BasketCustomerController {
 		return "order/regist/order_address_input";
 	}
 
-
+	/**
+	 * 注文情報セッションにお届け先入力情報登録 --> 支払方法選択画面にリダイレクト
+	 */
 	@RequestMapping(path="/regist/addressInputComplete", method = RequestMethod.POST)
 	public String addressInputComplete(OrderForm form) {
-		OrderBean orderInfo=new OrderBean();
-
 		orderInfo.setPostalCode(form.getPostalCode());
 		orderInfo.setAddress(form.getAddress());
 		orderInfo.setName(form.getName());
@@ -160,7 +167,7 @@ public class BasketCustomerController {
 	}
 
 	/**
-	 * 支払方法選択
+	 * 支払方法選択画面へ遷移
 	 */
 	@RequestMapping("/order/regist/paymentInput")
 	public String orderPaymentInput() {
@@ -168,10 +175,23 @@ public class BasketCustomerController {
 	}
 
 	/**
-	 * 注文確認
+	 * 注文情報セッションに支払方法入力情報登録 --> 注文確認選択画面にリダイレクト
+	 */
+	@RequestMapping(path="/regist/paymentInputComplete", method = RequestMethod.POST)
+	public String paymentInputComplete(OrderForm form) {
+		orderInfo.setPayMethod(form.getPayMethod());
+
+		session.setAttribute("orderInfo", orderInfo);
+		return "redirect:/order/regist/check";
+	}
+
+
+	/**
+	 * 注文確認画面へ遷移
 	 */
 	@RequestMapping("/order/regist/check")
 	public String orderCheck() {
+
 		return "order/regist/order_check";
 	}
 	/**
