@@ -64,7 +64,7 @@ public class IwataController {
 		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 		model.addAttribute("pages", itemList);
 		model.addAttribute("items", itemBeanList);
-		return "item/item_search_result/item_list";
+		return "item/list/item_list";
 	}
 	//
 	//	@RequestMapping("/item/list/category/1")
@@ -111,7 +111,7 @@ public class IwataController {
 		model.addAttribute("pages", itemList);
 		model.addAttribute("items", itemBeanList);
 		//		model.addAttribute("items", itemRepository.findByPriceBetween(minPrice, maxPrice, pageable));
-		return "item/item_search_result/item_list";
+		return "item/list/item_list";
 	}
 
 	//	}
