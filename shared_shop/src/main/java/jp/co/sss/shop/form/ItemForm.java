@@ -16,55 +16,59 @@ public class ItemForm {
 	/**
 	 * 商品ID
 	 */
-	private String			id;
+	private String id;
 
 	/**
 	 * 商品名
 	 */
 	@NotBlank
 	@Size(min = 1, max = 100)
-	private String			name;
+	private String name;
 
 	/**
 	 * 価格
 	 */
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{1,7}$")
-	private String			price;
+	private String price;
 
 	/**
 	 * 在庫数
 	 */
 	@NotBlank
 	@Pattern(regexp = "^[0-9]{0,4}$")
-	private String			stock;
+	private String stock;
 
 	/**
 	 * 商品説明文
 	 */
 	@Size(min = 0, max = 400)
-	private String			description;
+	private String description;
 
-	
 	/**
 	 * 商品画像ファイル
 	 */
-	private MultipartFile	imageFile;
+	private MultipartFile imageFile;
 
 	/**
 	 * 商品画像ファイル名
 	 */
-	private String			image;
+	private String image;
 
 	/**
 	 * カテゴリID
 	 */
-	private String			categoryId;
+	private String categoryId;
 
 	/**
 	 * 商品カテゴリ名
 	 */
-	private String			categoryName;
+	private String categoryName;
+
+	/**
+	 * 販売数
+	 */
+	private Integer salesFigures;
 
 	public String getId() {
 		return id;
@@ -136,5 +140,13 @@ public class ItemForm {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public Integer getSalesFigures() {
+		return salesFigures;
+	}
+
+	public void setSalesFigures(Integer salesFigures) {
+		this.salesFigures = salesFigures;
 	}
 }
