@@ -4,24 +4,15 @@
 <!-- 	layout:decorator="common/layout_3block"> -->
 <html xmlns:th="http://www.thymeleaf.org"
     th:replace="~{common/layout_3block :: layout(~{::body/content()})}">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-<body th:object="${loginForm}" class="user login">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+
+	<body th:object="${loginForm}" class="user login">
 
 		<h2 class="page_title">ログイン</h2>
 		<p class="description">メールアドレスとパスワードを入力してください。</p>
-
-
-	<div class="errMessage">
-   	  <p th:text="${errMessage1}"></p>
-  	  <p th:text="${errMessage2}"></p>
-	  <p th:text="${errMessage3}"></p>
-  	  <p th:text="${errMessage4}"></p>
-  	  <p th:text="${errMessage5}"></p>
-  	</div>
-
 
 		<form method="post" th:action="@{/login}" th:object="${loginForm}">
 
@@ -48,5 +39,5 @@
 			</table>
 		</form>
 
-</body>
+	</body>
 </html>
