@@ -43,15 +43,7 @@ public class UserRegistCustomerController {
 	public String registInput(Model model) {
 		UserForm userForm = new UserForm();
 
-		//		if (!model.containsAttribute("userForm")) {
-		//			UserForm userForm = new UserForm();
-		//			UserBean user = (UserBean) session.getAttribute("user");
-		//			if (user.getAuthority() == 0) {
-		//				// システム管理者としてログイン中の場合、入力フォーム「権限」の初期値を0（システム管理者）に指定する。
-		//				userForm.setAuthority(user.getAuthority());
-		//			}
 		model.addAttribute("userForm", userForm);
-		//		}
 		return "user/regist/user_regist_input";
 
 	}
