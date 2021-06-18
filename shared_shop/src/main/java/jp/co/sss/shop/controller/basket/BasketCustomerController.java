@@ -1,6 +1,9 @@
 package jp.co.sss.shop.controller.basket;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import jp.co.sss.shop.bean.BasketBean;
 import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.entity.Item;
+import jp.co.sss.shop.entity.Order;
+import jp.co.sss.shop.entity.OrderItem;
+import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.repository.ItemRepository;
 import jp.co.sss.shop.repository.OrderItemRepository;
@@ -41,6 +47,7 @@ public class BasketCustomerController {
 	 */
 	@RequestMapping("/basket")
 	public String showBasket() {
+		session.setAttribute("basketList", basketList);
 		return "basket/shopping_basket";
 	}
 
@@ -58,13 +65,13 @@ public class BasketCustomerController {
 		 *
 		 * 同一商品がある場合：注文数 +1
 		 */
-		if(basketList!=null) {
-		for(int i = 0; i <= basketList.size(); i++) {
+		if(!basketList.isEmpty()) {
+		for(int i = 0; i < basketList.size(); i++) {
 			checkBasket = basketList.get(i);
 
 			if(checkBasket.getId() == itemId) {
 				checkBasket.setOrderNum(checkBasket.getOrderNum()+1);
-				subtotal = checkBasket.getPrice()*checkBasket.getStock();
+				subtotal = checkBasket.getPrice()*checkBasket.getOrderNum();
 				checkBasket.setSubtotal(subtotal);
 				basketList.set(i, checkBasket);
 				session.setAttribute("basketList", basketList);
@@ -83,7 +90,7 @@ public class BasketCustomerController {
 		basket.setOrderNum(basket.getOrderNum());
 		basket.setImage(item.getImage());
 		basket.setPrice(item.getPrice());
-		subtotal = item.getPrice()*basket.getStock();
+		subtotal = item.getPrice()*basket.getOrderNum();
 		basket.setSubtotal(subtotal);
 
 		basketList.add(basket);
@@ -101,6 +108,8 @@ public class BasketCustomerController {
 		BasketBean copyBasket=basketList.get(index);
 
 		copyBasket.setOrderNum(copyBasket.getOrderNum() +1);
+		int subtotal=copyBasket.getPrice()*copyBasket.getOrderNum();
+		copyBasket.setSubtotal(subtotal);
 		basketList.set(index, copyBasket);
 
 		session.setAttribute("basketList", basketList);
@@ -115,6 +124,8 @@ public class BasketCustomerController {
 		BasketBean copyBasket=basketList.get(index);
 
 		copyBasket.setOrderNum(copyBasket.getOrderNum() -1);
+		int subtotal=copyBasket.getPrice()*copyBasket.getOrderNum();
+		copyBasket.setSubtotal(subtotal);
 		basketList.set(index, copyBasket);
 
 		session.setAttribute("basketList", basketList);
@@ -181,6 +192,12 @@ public class BasketCustomerController {
 	public String paymentInputComplete(OrderForm form) {
 		orderInfo.setPayMethod(form.getPayMethod());
 
+		int total=0;
+		for(int i = 0; i < basketList.size(); i++) {
+			total += basketList.get(i).getSubtotal();
+		}
+
+		session.setAttribute("total", total);
 		session.setAttribute("orderInfo", orderInfo);
 		return "redirect:/order/regist/check";
 	}
@@ -196,9 +213,42 @@ public class BasketCustomerController {
 	}
 	/**
 	 * 注文完了
+	 * @throws ParseException
 	 */
 	@RequestMapping("/order/regist/complete")
-	private String orderComplete() {
+	private String orderComplete() throws ParseException {
+		Order order = new Order();
+		OrderItem orderItem = new OrderItem();
+		List<OrderItem> orderList = new ArrayList<OrderItem>();
+
+		User user = (User) session.getAttribute("userInfo");
+
+		order.setPostalCode(orderInfo.getPostalCode());
+		order.setAddress(orderInfo.getAddress());
+		order.setName(orderInfo.getName());
+		order.setPhoneNumber(orderInfo.getPhoneNumber());
+		order.setPayMethod(orderInfo.getPayMethod());
+
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String nowDate = sdf.format(now);
+		now = sdf.parse(nowDate);
+		java.sql.Date sqlNowDate = new java.sql.Date(now.getTime());
+		order.setInsertDate(sqlNowDate);
+
+		order.setUser(user);
+
+		for(int i = 0; i < basketList.size(); i++) {
+			int itemId = basketList.get(i).getId();
+			Item item = itemRepository.getOne(itemId);
+			orderItem.setQuantity(basketList.get(i).getOrderNum());
+			orderItem.setItem(item);
+			orderItem.setPrice(basketList.get(i).getPrice());
+			orderList.add(orderItem);
+		}
+
+		orderRepository.save(order);
+
 		return "order/regist/order_complete";
 	}
 }
