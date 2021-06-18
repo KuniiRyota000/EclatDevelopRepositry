@@ -68,12 +68,7 @@ public class LoginController {
 		session.setAttribute("userInfo", user);
 
 		if (result.hasErrors()) {
-//			model.addAttribute("errMessage1", "メールアドレス、もしくはパスワードが間違っています。");
-//			model.addAttribute("errMessage2", "パスワードは正しい形式で入力してください。");
-//			model.addAttribute("errMessage3", "パスワードは必須項目です。");
-//			model.addAttribute("errMessage4", "メールアドレスは必須項目です。");
-//			model.addAttribute("errMessage5", "パスワードは8文字以上16文字以内で入力してください");
-			// 入力値に誤りがあった場合
+
 			return login(form);
 		} else {
 			if (user.getAuthority() == 2) {
