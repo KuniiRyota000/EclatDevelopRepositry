@@ -30,4 +30,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	//該当するカテゴリ情報を新着順で検索
 	@Query("SELECT i FROM Item i WHERE i.category.id=:categoryId ORDER BY insertDate DESC")
 	public Page<Item> findByCategoryIdOrderByInsertDateDesc(@Param("categoryId") Integer categoryId, Pageable pageable);
+
+	//トップ画面売れ筋順
+	public Page<Item> findAllByOrderBySalesFiguresDesc(Pageable pageable);
 }

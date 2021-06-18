@@ -46,6 +46,7 @@
 				<input type="hidden" name="categoryId" th:value="${itemForm.categoryId}" />
 				<input type="hidden" name="stock" th:value="${itemForm.stock}" />
 				<input type="hidden" name="image" th:value="${itemForm.image}" />
+					<input type="hidden" name="salesFigures" th:value="${itemForm.salesFigures}" />
 				<input type="submit" value="登録" class="send_button" />
 			</form>
 			<form th:action="@{/item/regist/input}" method="post">
@@ -54,6 +55,7 @@
 				<input type="hidden" name="description" th:value="${itemForm.description}" />
 				<input type="hidden" name="categoryId" th:value="${itemForm.categoryId}" />
 				<input type="hidden" name="stock" th:value="${itemForm.stock}" />
+					<input type="hidden" name="salesFigures" th:value="${itemForm.salesFigures}" />
 			    <input type="submit" value="戻る"  class="back_button" />
 			</form>
 		</div>

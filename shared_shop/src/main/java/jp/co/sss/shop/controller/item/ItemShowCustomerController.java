@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.shop.bean.ItemBean;
 import jp.co.sss.shop.entity.Item;
-import jp.co.sss.shop.entity.OrderItem;
 import jp.co.sss.shop.repository.ItemRepository;
-import jp.co.sss.shop.repository.OrderItemRepository;
 import jp.co.sss.shop.util.BeanCopy;
 import jp.co.sss.shop.util.Constant;
 
@@ -29,8 +27,6 @@ public class ItemShowCustomerController {
 	 */
 	@Autowired
 	ItemRepository itemRepository;
-	@Autowired
-	OrderItemRepository orderItemRepository;
 
 	/**
 	 * トップ画面 表示処理
@@ -41,10 +37,10 @@ public class ItemShowCustomerController {
 	 */
 	@RequestMapping(path = "/")
 	public String index(Model model, Pageable pageable) {
-		Page<OrderItem> pageList = orderItemRepository.findAll(pageable);
-		List<OrderItem> itemList = pageList.getContent();
+		Page<Item> pageList = itemRepository.findAllByOrderBySalesFiguresDesc(pageable);
+		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(pageList.getContent());
 		model.addAttribute("pages", pageList);
-		model.addAttribute("items", itemList);
+		model.addAttribute("items", itemBeanList);
 		return "index";
 	}
 

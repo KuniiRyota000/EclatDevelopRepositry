@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <meta charset="UTF-8">
 <title>会員変更入力 | シェアードショップ</title>
@@ -55,11 +55,13 @@
 						</label>
 
 					</li>
+
 				</ul>
 				<input type="hidden" name="authority" th:value="${user.authority}" />
 				<input type="hidden" name="id" th:value="${user.id}"/>
 				<input type="hidden" name="backflg" value=0 />
 				<input type="submit" value="確認" class="send_button" />
+				<input type="hidden" name="point" th:value="${session.userInfo.point}"/>
 			</form>
 		    <form method="post" th:action="@{/user/detail/{id}(id=${user.id})}">
 			    <input type="hidden" name="id" th:value="${user.id}"/>
