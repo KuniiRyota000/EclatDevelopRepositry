@@ -10,7 +10,7 @@
 		注文内容最終確認
 	</h2>
 	<br />
-	<table class="list_table item_detail">
+	<table class="list_table item_detail" th:if="!${#lists.isEmpty(session.basketList)}">
 		<tr>
 			<th>
 				商品名
@@ -29,18 +29,25 @@
 			</th>
 		</tr>
 
-		<tr th:each="basketList: ${sesson.basketList}">
-			<td th:text="${basketList.name}"></td>
-			<td th:text="${basketList.image}"></td>
-			<td th:text="${basketList.price}"></td>
-			<td th:text="${basketList.stock}"></td>
-			<td th:text="${basketList.subtotal}"></td>
+		<tr th:each="basket: ${session.basketList}">
+			<td th:text="${basket.name}"></td>
+			<td th:text="${basket.image}">
+				<span th:if="${basket.image != null}">
+					<img th:src="@{/img/{image}(image=${basket.image})}"></img>
+				</span>
+				<span th:if="${basketList.image == null}">
+					<img th:src="@{/img/common/no_image.jpg}"></img>
+				</span>
+			</td>
+			<td th:text="${basket.price}"></td>
+			<td th:text="${basket.orderNum}"></td>
+			<td th:text="${basket.subtotal}"></td>
 		</tr>
 
 		<tr>
 			<td colspan="3"></td>
 			<th class="total">合計</th>
-			<td th:text="${sesson.total}" class="total"></td>
+			<td th:text="${session.total}" class="total"></td>
 		</tr>
 	</table>
 
@@ -51,19 +58,19 @@
 			</caption>
 			<tr>
 				<th>郵便番号</th>
-				<td th:text="${sesson.orderInfo.postalCode}"></td>
+				<td th:text="${session.orderInfo.postalCode}"></td>
 			</tr>
 			<tr>
 				<th>住所</th>
-				<td th:text="${sesson.orderInfo.address}"></td>
+				<td th:text="${session.orderInfo.address}"></td>
 			</tr>
 			<tr>
 				<th>氏名</th>
-				<td th:text="${sesson.orderInfo.name}"></td>
+				<td th:text="${session.orderInfo.name}"></td>
 			</tr>
 			<tr>
 				<th>電話番号</th>
-				<td th:text="${sesson.orderInfo.phoneNumber}"></td>
+				<td th:text="${session.orderInfo.phoneNumber}"></td>
 			</tr>
 		</table>
 
@@ -73,7 +80,7 @@
 			</caption>
 			<tr>
 				<th>お支払い方法</th>
-				<td th:switch="${sesson.orderInfo.payMethod}">
+				<td th:switch="${session.orderInfo.payMethod}">
 					<span th:case="1">クレジットカード</span>
 					<span th:case="2">銀行振り込み</span>
 					<span th:case="3">着払い</span>

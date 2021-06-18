@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.UserForm;
 import jp.co.sss.shop.repository.UserRepository;
@@ -42,15 +43,7 @@ public class UserRegistCustomerController {
 	public String registInput(Model model) {
 		UserForm userForm = new UserForm();
 
-		//		if (!model.containsAttribute("userForm")) {
-		//			UserForm userForm = new UserForm();
-		//			UserBean user = (UserBean) session.getAttribute("user");
-		//			if (user.getAuthority() == 0) {
-		//				// システム管理者としてログイン中の場合、入力フォーム「権限」の初期値を0（システム管理者）に指定する。
-		//				userForm.setAuthority(user.getAuthority());
-		//			}
 		model.addAttribute("userForm", userForm);
-		//		}
 		return "user/regist/user_regist_input";
 
 	}
@@ -107,6 +100,15 @@ public class UserRegistCustomerController {
 		// 会員情報を保存
 		userRepository.save(user);
 		session.setAttribute("userInfo", user);
+		//userBeanを宣言
+		UserBean userBean = new UserBean();
+
+		userBean.setId(user.getId());
+		userBean.setName(user.getName());
+		userBean.setAuthority(user.getAuthority());
+
+		// セッションスコープにログインしたユーザの情報を登録
+		session.setAttribute("user", userBean);
 
 		return "redirect:/user/regist/complete";
 	}
