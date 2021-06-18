@@ -47,7 +47,7 @@
 
 			<form th:action="@{/user/delete/check}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="退会" />
+				<input type="submit" value="退会" class="withdrawal"/>
 				</form>
 				</div>
 

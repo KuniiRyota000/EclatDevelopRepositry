@@ -57,44 +57,23 @@ public class IwataController {
 	 * @param pageable ページング情報
 	 * @return "/" トップ画面へ
 	 */
+	//カテゴリ別検索
 	@RequestMapping(path = "/item/list/category/1", method = RequestMethod.GET)
 	public String itemListCategory1(Integer categoryId, Model model, Pageable pageable) {
-		Page<Item> itemList = itemRepository.findByCategoryIdOrderByInsertDateDesc(categoryId, pageable);
+		Page<Item> itemList = itemRepository.findByDeleteFlagCategoryIdOrderByInsertDateDesc(categoryId, pageable);
 		// エンティティ内の検索結果をJavaBeansにコピー
 		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 		model.addAttribute("pages", itemList);
 		model.addAttribute("items", itemBeanList);
+		model.addAttribute("selectedCategory", categoryId);
 		return "item/list/item_list";
 	}
-	//
-	//	@RequestMapping("/item/list/category/1")
-	//	public String itemListCategory(Integer categoryId, Model model) {
-	//		Category category = new Category();
-	//		category.setId(categoryId);
-	//		List<Item> items = itemRepository.findById(category);
-	//		// エンティティ内の検索結果をJavaBeansにコピー
-	//		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(items);
-	//		model.addAttribute("category", items);
-	//		model.addAttribute("items", itemBeanList);
-	//		return "item/item_search_result/item_list_1";
-	//	}
-
-	//	@RequestMapping(path = "/item/list/category/{sortType}", method = RequestMethod.GET)
-	//	public String itemListCategory(Integer categoryId, Model model) {
-	//		Category category = new Category();
-	//		category.setId(categoryId);
-	//		List<Item> item = itemRepository.findById(category);
-	//		// エンティティ内の検索結果をJavaBeansにコピー
-	//		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(item);
-	//		model.addAttribute("item", itemBeanList);
-	//		return "item/item_search_result/item_list_1";
-	//	}
-	//}
 
 	//public String itemListCategory(String categoryId) {
 	//	return "/item/item_search_result/item_search_result";
 	//}
-	//
+
+	//価格帯
 	@RequestMapping(path = "/item/list/price/1", method = RequestMethod.GET) //delet
 	public String itemListPrice(Item item, String min, String max, Model model, Pageable pageable) {
 		if (max.isEmpty()) {
@@ -110,7 +89,6 @@ public class IwataController {
 		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 		model.addAttribute("pages", itemList);
 		model.addAttribute("items", itemBeanList);
-		//		model.addAttribute("items", itemRepository.findByPriceBetween(minPrice, maxPrice, pageable));
 		return "item/list/item_list";
 	}
 
@@ -125,8 +103,8 @@ public class IwataController {
 	//	public String itemDetail() {
 	//		return "/item/item_search_result/item_search_result";
 	//	}
-	//
 	//}
+	//商品詳細
 	@RequestMapping(path = "/item/detail/{id}")
 	public String showItem(@PathVariable int id, Model model) {
 
