@@ -92,6 +92,12 @@ div.errMessage{
 	color: white;
 }
 
+/* ---- ボタン(退会) ---- */
+[type=submit].withdrawal {
+	background: #d22222;
+	color: white;
+}
+
 /* ---- ボタン(商品個数指定) ---- */
 [type=button] {
 	width: 80px;
