@@ -8,7 +8,7 @@
 <body class="main">
 	<h2 class="title">買い物かご</h2>
 
-	<div th:if="${session.basketList} != null">
+	<div class="list_table basket" th:if="!${#lists.isEmpty(session.basketList)}">
 	<table>
 		<tr>
 			<th>商品名</th>
@@ -21,15 +21,15 @@
 			<td th:text="${basket.name}"></td>
 			<td th:text="${basket.orderNum}"></td>
 			<td>
-				<form th:action="/shared_shop/basket/addOrderNum/${st.index}">
+				<form th:action="@{/basket/addOrderNum/{index} (index = ${st.index})}">
 					<input type="submit" value="+1" />
 				</form>
-				<form th:action="/shared_shop/basket/subOrderNum/${st.index}">
+				<form th:action="@{/basket/subOrderNum/{index} (index = ${st.index})}">
 					<input type="submit" value="-1" />
 				</form>
 
-				<form th:action="/shared_shop/basket/deleteItem/${st.index}">
-					<input type="submit" value="削除" />
+				<form th:action="@{/basket/deleteItem/{index} (index = ${st.index})}">
+					<input class="delete" type="submit" value="削除" />
 				</form>
 			</td>
 			<td th:text="${basket.stock}"></td>
@@ -45,6 +45,6 @@
 		<input type="submit" value="買い物かごを空にする" />
 	</form>
 
-	<div th:if="${session.basketList} == null">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
+	<div th:if="${#lists.isEmpty(session.basketList)}">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
 </body>
 </html>
