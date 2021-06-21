@@ -1,5 +1,7 @@
 package jp.co.sss.shop.bean;
 
+import javax.persistence.Column;
+
 /**
  * 注文情報クラス
  *
@@ -56,6 +58,18 @@ public class OrderBean {
 	 * 使用ポイント
 	 */
 	private Integer usePoint;
+
+	/**
+	 * 使用ポイント
+	 */
+	@Column
+	private int usedPoint;
+
+	/**
+	 * 獲得ポイント
+	 */
+	@Column
+	private int gotPoint;
 
 	public Integer getId() {
 		return id;
@@ -135,6 +149,22 @@ public class OrderBean {
 
 	public void setUsePoint(Integer usePoint) {
 		this.usePoint = usePoint;
+	}
+
+	public int getUsedPoint() {
+		return usedPoint;
+	}
+
+	public void setUsedPoint(int usedPoint) {
+		this.usedPoint = usedPoint;
+	}
+
+	public int getGotPoint() {
+		return gotPoint;
+	}
+
+	public void setGotPoint(int gotPoint) {
+		this.gotPoint = gotPoint;
 	}
 
 }

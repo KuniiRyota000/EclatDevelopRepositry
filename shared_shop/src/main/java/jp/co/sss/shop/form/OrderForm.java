@@ -1,5 +1,7 @@
 package jp.co.sss.shop.form;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -62,8 +64,13 @@ public class OrderForm {
 	 * 注文時点合計金額
 	 */
 	private Integer price;
-	
 
+	/**
+	 * 使用ポイント
+	 */
+	@Min(0)
+	@Max(value = 999999)
+	private Integer usePoint;
 
 	public Integer getId() {
 		return id;
@@ -128,6 +135,12 @@ public class OrderForm {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	
-	
+
+	public Integer getUsePoint() {
+		return usePoint;
+	}
+
+	public void setUsePoint(Integer usePoint) {
+		this.usePoint = usePoint;
+	}
 }
