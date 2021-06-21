@@ -37,11 +37,6 @@ public class IwataController {
 	 * @param pageable ページング情報
 	 * @return "/" トップ画面へ
 	 */
-	//	@RequestMapping(path = "/")
-	//	public String index(Model model, Pageable pageable, Integer salesFigures) {
-	//		model.addAttribute("items1", itemRepository.findBySalesFiguresOrderBySalesFiguresAsc(salesFigures, pageable));
-	//		return "index";
-	//	}
 
 	/**新着一覧表示*/
 	@RequestMapping(path = "/item/list/{sortType}")
@@ -69,15 +64,12 @@ public class IwataController {
 		return "item/list/item_list";
 	}
 
-	//public String itemListCategory(String categoryId) {
-	//	return "/item/item_search_result/item_search_result";
-	//}
-
 	//価格帯
 	@RequestMapping(path = "/item/list/price/1", method = RequestMethod.GET) //delet
 	public String itemListPrice(Item item, String min, String max, Model model, Pageable pageable) {
 		if (max.isEmpty()) {
 			max = min;
+			return "item/list/item_list";
 		} else if (min.isEmpty()) {
 			min = "0";
 		}
@@ -92,18 +84,6 @@ public class IwataController {
 		return "item/list/item_list";
 	}
 
-	//	}
-	//
-	//	@RequestMapping(path = "/item/list/price/{sortType}", method = RequestMethod.GET)
-	//	public String itemListPriceSortType(Integer minPrice, Integer maxPrice, Integer price) {
-	//		return "/item/item_search_result/item_search_result";
-	//	}
-	//
-	//	@RequestMapping(path = "/item/detail")
-	//	public String itemDetail() {
-	//		return "/item/item_search_result/item_search_result";
-	//	}
-	//}
 	//商品詳細
 	@RequestMapping(path = "/item/detail/{id}")
 	public String showItem(@PathVariable int id, Model model) {

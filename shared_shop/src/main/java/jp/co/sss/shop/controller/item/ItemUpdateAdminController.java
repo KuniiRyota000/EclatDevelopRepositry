@@ -1,9 +1,12 @@
 package jp.co.sss.shop.controller.item;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.sss.shop.bean.ItemBean;
@@ -73,7 +78,7 @@ public class ItemUpdateAdminController {
 		}
 		return "item/update/item_update_input";
 	}
-	
+
 	/**
 	 * 商品情報変更確認処理
 	 *
@@ -81,7 +86,7 @@ public class ItemUpdateAdminController {
 	 * @return "item/update/item_update_check" 商品情報 変更確認画面へ
 	 */
 	@RequestMapping(path = "/item/update/check", method = RequestMethod.POST)
-	public String updateCheck( Model model,@Valid @ModelAttribute ItemForm form, BindingResult result) {
+	public String updateCheck(Model model, @Valid @ModelAttribute ItemForm form, BindingResult result) {
 
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
@@ -107,9 +112,13 @@ public class ItemUpdateAdminController {
 
 			// ファイルのアップロード先を指定
 			imageName = date + "_" + imageName;
-			File uploadPath = new File(Constant.FILE_UPLOAD_PATH, imageName);
-
+			ServletContext context = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+					.getRequest().getServletContext();
+			File uploadPath = new File(context.getRealPath("/img"), imageName);
 			try {
+				if (!Files.exists(Paths.get(context.getRealPath("/img")))) {
+					Files.createDirectory(Paths.get(context.getRealPath("/img")));
+				}
 				// 指定されたファイルを一時的にアップロード
 				file.transferTo(uploadPath);
 			} catch (Exception e) {
@@ -140,19 +149,19 @@ public class ItemUpdateAdminController {
 	 */
 	@RequestMapping(path = "/item/update/complete", method = RequestMethod.POST)
 	public String updateComplete(@ModelAttribute ItemForm form) {
-	
+
 		// Formクラス内の各フィールドの値をエンティティにコピー
 		Item item = BeanCopy.copyFormToEntity(form);
-		
+
 		// 商品情報の削除フラグを初期化
 		item.setDeleteFlag(Constant.NOT_DELETED);
-		
+
 		// 商品情報を保存
 		itemRepository.save(item);
 
 		return "redirect:/item/update/complete";
 	}
-	
+
 	/**
 	 * 商品情報変更完了表示
 	 *
@@ -160,8 +169,8 @@ public class ItemUpdateAdminController {
 	 */
 	@RequestMapping(path = "/item/update/complete", method = RequestMethod.GET)
 	public String updateCompleteRedirect() {
-		
+
 		return "item/update/item_update_complete";
-	}	
+	}
 
 }
