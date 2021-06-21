@@ -22,6 +22,11 @@ public class BasketForm {
 	 */
 	private Integer	orderNum[];
 
+	/**
+	 * 使用ポイント
+	 */
+	private Integer usePoint;
+
 	public Integer getId() {
 		return id;
 	}
@@ -44,6 +49,14 @@ public class BasketForm {
 
 	public void setOrderNum(Integer[] orderNum) {
 		this.orderNum = orderNum;
+	}
+
+	public Integer getUsePoint() {
+		return usePoint;
+	}
+
+	public void setUsePoint(Integer usePoint) {
+		this.usePoint = usePoint;
 	}
 
 }

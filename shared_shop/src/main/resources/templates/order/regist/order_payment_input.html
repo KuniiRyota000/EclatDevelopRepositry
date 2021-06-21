@@ -42,6 +42,10 @@
 						コンビニ決済
 					</label>
 				</li>
+				<li>
+					使用ポイント
+					<input type="text" name="usePoint" th:value="${session.userInfo.point}" />
+				</li>
 			</ul>
 			<input type="submit" class="send_button" value="次へ" />
 		</form>

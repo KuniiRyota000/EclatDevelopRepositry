@@ -52,6 +52,11 @@ public class OrderBean {
 	 */
 	private String	userName;
 
+	/**
+	 * 使用ポイント
+	 */
+	private Integer usePoint;
+
 	public Integer getId() {
 		return id;
 	}
@@ -122,6 +127,14 @@ public class OrderBean {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Integer getUsePoint() {
+		return usePoint;
+	}
+
+	public void setUsePoint(Integer usePoint) {
+		this.usePoint = usePoint;
 	}
 
 }

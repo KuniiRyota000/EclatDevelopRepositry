@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <title>買い物かご | シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -9,42 +9,47 @@
 	<h2 class="title">買い物かご</h2>
 
 	<div class="list_table basket" th:if="!${#lists.isEmpty(session.basketList)}">
-	<table>
-		<tr>
-			<th>商品名</th>
-			<th>数</th>
-			<th>操作</th>
-			<th>在庫</th>
-		</tr>
+		<div th:if="${session.itemName} != null" th:text="'※' + ${session.itemName} + 'は、在庫不足のため、数を増やすことができません。'" class="err"></div>
 
-		<tr th:each="basket,st : ${session.basketList}">
-			<td th:text="${basket.name}"></td>
-			<td th:text="${basket.orderNum}"></td>
-			<td>
-				<form th:action="@{/basket/addOrderNum/{index} (index = ${st.index})}">
-					<input type="submit" value="+1" />
-				</form>
-				<form th:action="@{/basket/subOrderNum/{index} (index = ${st.index})}">
-					<input type="submit" value="-1" />
-				</form>
+		<table>
+			<tr>
+				<th>商品名</th>
+				<th>数</th>
+				<th>操作</th>
+				<th>在庫</th>
+			</tr>
 
-				<form th:action="@{/basket/deleteItem/{index} (index = ${st.index})}">
-					<input class="delete" type="submit" value="削除" />
-				</form>
-			</td>
-			<td th:text="${basket.stock}"></td>
-		</tr>
-	</table>
+			<tr th:each="basket,st : ${session.basketList}">
+				<td th:text="${basket.name}"></td>
+				<td th:text="${basket.orderNum}"></td>
+				<td>
+					<form th:action="@{/basket/addOrderNum/{index} (index = ${st.index})}">
+						<input type="submit" value="+1" />
+					</form>
+					<form th:action="@{/basket/subOrderNum/{index} (index = ${st.index})}">
+						<input type="submit" value="-1" />
+					</form>
 
+					<form th:action="@{/basket/deleteItem/{index} (index = ${st.index})}">
+						<input class="delete" type="submit" value="削除" />
+					</form>
+				</td>
+				<td th:text="${basket.stock}"></td>
+			</tr>
+		</table>
+
+		<form action="/shared_shop/order/regist/addressInput">
+			<input type="submit" value="ご注文のお手続き" />
+		</form>
+
+		<form action="/shared_shop/basket/deleteAllItem">
+			<input type="submit" value="買い物かごを空にする" />
+		</form>
 	</div>
-	<form action="/shared_shop/order/regist/addressInput">
-		<input type="submit" value="ご注文のお手続き" />
-	</form>
 
-	<form action="/shared_shop/basket/deleteAllItem">
-		<input type="submit" value="買い物かごを空にする" />
-	</form>
-
-	<div th:if="${#lists.isEmpty(session.basketList)}">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
+	<div class="list_table basket">
+		<div th:if="${session.itemName} != null" th:text="'※' + ${session.itemName} + 'は、在庫不足のため、数を増やすことができません。'" class="err"></div>
+		<div th:if="${#lists.isEmpty(session.basketList)}">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
+	</div>
 </body>
 </html>
