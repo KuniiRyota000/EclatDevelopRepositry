@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,10 +21,12 @@ import jp.co.sss.shop.entity.Item;
 import jp.co.sss.shop.entity.Order;
 import jp.co.sss.shop.entity.OrderItem;
 import jp.co.sss.shop.entity.User;
+import jp.co.sss.shop.form.BasketForm;
 import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.repository.ItemRepository;
 import jp.co.sss.shop.repository.OrderItemRepository;
 import jp.co.sss.shop.repository.OrderRepository;
+import jp.co.sss.shop.repository.UserRepository;
 
 @Controller
 public class BasketCustomerController {
@@ -37,17 +40,30 @@ public class BasketCustomerController {
 	OrderItemRepository oderItemRepository;
 
 	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
 	HttpSession session;
 
-	public static List<BasketBean> basketList = new ArrayList<BasketBean>();
-	public static OrderBean orderInfo=new OrderBean();
+	private static List<BasketBean> basketList = new ArrayList<BasketBean>();
+	private static OrderBean orderInfo=new OrderBean();
+	private static Item staticItem = new Item();
+	private static int upperLimitFlag = 0;
 
 	/**
 	 * 買い物かご表示
 	 */
 	@RequestMapping("/basket")
 	public String showBasket() {
+		if(upperLimitFlag == 1) {
+			System.out.println(staticItem.getName());
+			session.setAttribute("itemName", staticItem.getName());
+		}else {
+			session.removeAttribute("itemName");
+		}
+
 		session.setAttribute("basketList", basketList);
+		upperLimitFlag = 0;
 		return "basket/shopping_basket";
 	}
 
@@ -81,8 +97,16 @@ public class BasketCustomerController {
 		}
 		}
 
-		//買い物かごに商品追加
 		Item item=itemRepository.getOne(itemId);
+
+		//在庫なしなら追加しない
+		if(item.getStock() <= 0) {
+			staticItem = itemRepository.getOne(itemId);
+			upperLimitFlag = 1;
+			return "redirect:/basket";
+		}
+
+		//買い物かごに商品追加
 		BasketBean basket= new BasketBean();
 		basket.setId(item.getId());
 		basket.setName(item.getName());
@@ -104,15 +128,22 @@ public class BasketCustomerController {
 	 * 商品の購入数 +1
 	 */
 	@RequestMapping("/basket/addOrderNum/{index}")
-	public String addOrderNum(@PathVariable int index) {
-		BasketBean copyBasket=basketList.get(index);
+	public String addOrderNum(@PathVariable int index, Model model) {
+		BasketBean basketItem = basketList.get(index);
 
-		copyBasket.setOrderNum(copyBasket.getOrderNum() +1);
-		int subtotal=copyBasket.getPrice()*copyBasket.getOrderNum();
-		copyBasket.setSubtotal(subtotal);
-		basketList.set(index, copyBasket);
+		if(basketItem.getOrderNum() < basketItem.getStock()) {
+			basketItem.setOrderNum(basketItem.getOrderNum() +1);
+			int subtotal=basketItem.getPrice()*basketItem.getOrderNum();
+			basketItem.setSubtotal(subtotal);
+			basketList.set(index, basketItem);
+			session.setAttribute("basketList", basketList);
+			upperLimitFlag = 0;
+		}else {
+			upperLimitFlag = 1;
+			staticItem = itemRepository.getOne(basketItem.getId());
+			return "redirect:/basket";
+		}
 
-		session.setAttribute("basketList", basketList);
 		return "redirect:/basket";
 	}
 
@@ -121,12 +152,16 @@ public class BasketCustomerController {
 	 */
 	@RequestMapping("/basket/subOrderNum/{index}")
 	public String subOrderNum(@PathVariable int index) {
-		BasketBean copyBasket=basketList.get(index);
+		BasketBean basketItem=basketList.get(index);
 
-		copyBasket.setOrderNum(copyBasket.getOrderNum() -1);
-		int subtotal=copyBasket.getPrice()*copyBasket.getOrderNum();
-		copyBasket.setSubtotal(subtotal);
-		basketList.set(index, copyBasket);
+		if(basketItem.getOrderNum() >= 2) {
+			basketItem.setOrderNum(basketItem.getOrderNum() -1);
+			int subtotal=basketItem.getPrice()*basketItem.getOrderNum();
+			basketItem.setSubtotal(subtotal);
+			basketList.set(index, basketItem);
+		}else {
+			deleteItem(index);
+		}
 
 		session.setAttribute("basketList", basketList);
 		return "redirect:/basket";
@@ -189,13 +224,16 @@ public class BasketCustomerController {
 	 * 注文情報セッションに支払方法入力情報登録 --> 注文確認選択画面にリダイレクト
 	 */
 	@RequestMapping(path="/regist/paymentInputComplete", method = RequestMethod.POST)
-	public String paymentInputComplete(OrderForm form) {
-		orderInfo.setPayMethod(form.getPayMethod());
+	public String paymentInputComplete(OrderForm orderForm, BasketForm basketForm) {
+		orderInfo.setPayMethod(orderForm.getPayMethod());
+		orderInfo.setUsePoint(basketForm.getUsePoint());
 
 		int total=0;
 		for(int i = 0; i < basketList.size(); i++) {
 			total += basketList.get(i).getSubtotal();
 		}
+
+		total -= orderInfo.getUsePoint();
 
 		session.setAttribute("total", total);
 		session.setAttribute("orderInfo", orderInfo);
@@ -218,10 +256,20 @@ public class BasketCustomerController {
 	@RequestMapping("/order/regist/complete")
 	private String orderComplete() throws ParseException {
 		Order order = new Order();
-		OrderItem orderItem = new OrderItem();
 		List<OrderItem> orderList = new ArrayList<OrderItem>();
 
 		User user = (User) session.getAttribute("userInfo");
+
+		int total = (int) session.getAttribute("total");
+		int point = (total - orderInfo.getUsePoint()) / 100;
+		user.setPoint(user.getPoint() - orderInfo.getUsePoint());
+
+		user.setPoint(point);
+
+		int userId = user.getId();
+		userRepository.save(user);
+
+		User userInfo = userRepository.getOne(userId);
 
 		order.setPostalCode(orderInfo.getPostalCode());
 		order.setAddress(orderInfo.getAddress());
@@ -236,18 +284,35 @@ public class BasketCustomerController {
 		java.sql.Date sqlNowDate = new java.sql.Date(now.getTime());
 		order.setInsertDate(sqlNowDate);
 
-		order.setUser(user);
+		order.setUser(userInfo);
+		orderRepository.save(order);
+
+		List<Integer> orderIdList = orderRepository.findIdByAll();
+		Order orderUpdate = orderRepository.getOne(orderIdList.size());
 
 		for(int i = 0; i < basketList.size(); i++) {
-			int itemId = basketList.get(i).getId();
+			OrderItem orderItem = new OrderItem();
+			BasketBean basketItem = basketList.get(i);
+			int itemId = basketItem.getId();
 			Item item = itemRepository.getOne(itemId);
-			orderItem.setQuantity(basketList.get(i).getOrderNum());
+			item.setSalesFigures(item.getSalesFigures() + basketItem.getOrderNum());
+			item.setStock(item.getStock() - basketItem.getOrderNum());
+			orderItem.setQuantity(basketItem.getOrderNum());
+			orderItem.setOrder(orderUpdate);
 			orderItem.setItem(item);
-			orderItem.setPrice(basketList.get(i).getPrice());
+			orderItem.setPrice(basketItem.getPrice());
 			orderList.add(orderItem);
+			itemRepository.save(item);
+			oderItemRepository.save(orderItem);
 		}
 
-		orderRepository.save(order);
+		orderUpdate.setOrderItemsList(orderList);
+		orderRepository.save(orderUpdate);
+
+		basketList.clear();
+		session.removeAttribute("basketList");
+		session.removeAttribute("orderInfo");
+		session.removeAttribute("total");
 
 		return "order/regist/order_complete";
 	}

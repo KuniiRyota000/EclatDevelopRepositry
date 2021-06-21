@@ -14,12 +14,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 /**
  * 商品情報のエンティティクラス
  *
  * @author SystemShared
  */
 @Entity
+@Proxy(lazy=false)
 @Table(name = "items")
 public class Item {
 	/**

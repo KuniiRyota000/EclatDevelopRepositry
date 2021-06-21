@@ -44,6 +44,11 @@ public class BasketBean {
 	private Integer	 subtotal;
 
 	/**
+	 * 使用ポイント
+	 */
+	private Integer usePoint;
+
+	/**
 	 * コンストラクタ
 	 */
 	public BasketBean() {
@@ -131,6 +136,14 @@ public class BasketBean {
 
 	public void setSubtotal(Integer subtotal) {
 		this.subtotal = subtotal;
+	}
+
+	public Integer getUsePoint() {
+		return usePoint;
+	}
+
+	public void setUsePoint(Integer usePoint) {
+		this.usePoint = usePoint;
 	}
 
 }
