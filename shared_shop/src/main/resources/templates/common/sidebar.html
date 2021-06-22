@@ -46,9 +46,9 @@ function check(){
 			<!-- 商品一覧画面以外で表示 -->
 			<form th:if="${sortType == null}" th:action="@{/item/list/price/1}" name="serchPriceCheck">
 				<p>上限金額</p>
-				<input type="text" name="max" th:value="${param.max}"/>
+				<input type="text" name="max" th:value="${param.max}" pattern="^[0-9]+$"/>
 				<p>下限金額</p>
-				<input type="text" name="min" th:value="${param.min}"/> <input type="submit" value="検索" onclick="return check()" />
+				<input type="text" name="min" th:value="${param.min}" pattern="^[0-9]+$"/> <input type="submit" value="検索" onclick="return check()" />
 			</form>
 			<!-- 商品一覧画面上で表示 -->
 			<form th:unless="${sortType == null}" th:action="@{/item/list/price/} + ${sortType}">
