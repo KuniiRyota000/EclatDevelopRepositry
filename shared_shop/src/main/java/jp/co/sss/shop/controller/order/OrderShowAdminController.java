@@ -37,7 +37,7 @@ public class OrderShowAdminController {
 	 */
 	@Autowired
 	OrderRepository orderRepository;
-	
+
 	/**
 	 * セッション
 	 */
@@ -58,11 +58,11 @@ public class OrderShowAdminController {
 	 * @return "order/list/order_list_admin" 注文情報 一覧画面へ
 	 */
 	@RequestMapping(path = "/order/list/admin", method = RequestMethod.GET)
-	public String showOrderList(Model model, @ModelAttribute OrderShowForm form, 
+	public String showOrderList(Model model, @ModelAttribute OrderShowForm form,
 	        Pageable pageable) {
 
 		// すべての注文情報を取得
-		Page<Order> orderList = orderRepository.findAllOrderByInsertDateDesc(pageable);		
+		Page<Order> orderList = orderRepository.findAllOrderByInsertDateDesc(pageable);
 
 		// 注文情報リストを生成
 		List<OrderBean> orderBeanList = new ArrayList<OrderBean>();
@@ -78,15 +78,15 @@ public class OrderShowAdminController {
 
 			//orderレコードから紐づくOrderItemのListを取り出す
 			List<OrderItem> orderItemList = order.getOrderItemsList();
-			
+
 			for(OrderItem orderItem :  orderItemList) {
-				
+
 				//購入時単価 * 買った個数をもとめて、合計に加算
 				total += ( orderItem.getPrice() * orderItem.getQuantity() );
 			}
 			//Orderに改めて注文時点の単価をセット
 			orderBean.setTotal(total);
-			
+
 			orderBeanList.add(orderBean);
 		}
 
@@ -120,30 +120,31 @@ public class OrderShowAdminController {
 		OrderBean orderBean = new OrderBean();
 		BeanUtils.copyProperties(order, orderBean);
 		orderBean.setInsertDate(order.getInsertDate().toString());
-		
+
 		// 会員名を注文情報に設定
 		orderBean.setUserName(order.getUser().getName());
-		
+
 		// 注文商品情報を取得
 		List<OrderItemBean> orderItemBeanList = new ArrayList<OrderItemBean>();
 		for (OrderItem orderItem : order.getOrderItemsList()) {
 			OrderItemBean orderItemBean = new OrderItemBean();
-			
+
 			orderItemBean.setName(orderItem.getItem().getName());
 			orderItemBean.setPrice(orderItem.getPrice());
 			orderItemBean.setOrderNum(orderItem.getQuantity());
-			
+
 			//購入時単価の合計値を計算
 			//※OrderItemのItemフィールドからgetPriceを利用すると、購入時ではなく現在の単価になってしまう。
 			int subtotal = orderItem.getPrice() * orderItem.getQuantity();
-			
+
 			orderItemBean.setSubtotal(subtotal);
-			
+
 			orderItemBeanList.add(orderItemBean);
 		}
-		
+
 		// 合計金額を算出
 		int total = PriceCalc.orderItemPriceTotal(orderItemBeanList);
+		total -= orderBean.getUsedPoint();
 
 		// 注文情報をViewへ渡す
 		model.addAttribute("order", orderBean);

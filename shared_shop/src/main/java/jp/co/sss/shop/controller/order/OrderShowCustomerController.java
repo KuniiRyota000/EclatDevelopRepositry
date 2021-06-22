@@ -144,6 +144,7 @@ public class OrderShowCustomerController {
 
 		// 合計金額を算出
 		int total = PriceCalc.orderItemPriceTotal(orderItemBeanList);
+		total -= orderBean.getUsedPoint();
 
 		// 注文情報をViewへ渡す
 		model.addAttribute("order", orderBean);
