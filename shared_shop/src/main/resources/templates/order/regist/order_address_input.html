@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <title>届け先入力 | シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -9,15 +9,24 @@
 	<h2 class="title">お届け先入力</h2>
 
 	<div class="user_info_form_area">
-		<form method="post" action="/shared_shop/regist/addressInputComplete">
+		<form method="post"
+			  action="/shared_shop/regist/addressInputComplete"
+			  th:object="${orderForm}">
 			<br />
 			<ul class="input_list">
+				<li class="err" th:errors="*{postalCode}"></li>
+				<li class="err" th:errors="*{address}"></li>
+				<li class="err" th:errors="*{name}"></li>
+				<li class="err" th:errors="*{phoneNumber}"></li>
+
 				<li>
 					<label>
 						<span class="input_title">
 							郵便番号
 						</span>
-						<input type="text" name="postalCode" th:value="${session.userInfo.postalCode}"/>
+						<input type="text"
+							   name="postalCode"
+							   th:field="*{postalCode}"/>
 					</label>
 				</li>
 				<li>
@@ -25,7 +34,9 @@
 						<span class="input_title">
 							住所
 						</span>
-						<textarea name="address" rows="6" th:text="${session.userInfo.address}"></textarea>
+						<textarea name="address"
+								  rows="6"
+								  th:field="*{address}"></textarea>
 					</label>
 				</li>
 				<li>
@@ -33,7 +44,9 @@
 						<span class="input_title">
 							氏名
 						</span>
-						<input type="text" name="name" th:value="${session.userInfo.name}"/>
+						<input type="text"
+							   name="name"
+							   th:field="*{name}"/>
 					</label>
 				</li>
 				<li>
@@ -41,10 +54,14 @@
 						<span class="input_title">
 							電話番号
 						</span>
-						<input type="text" name="phoneNumber" th:value="${session.userInfo.phoneNumber}"/>
+						<input type="text"
+							   name="phoneNumber"
+							   th:field="*{phoneNumber}"/>
 					</label>
 				</li>
 			</ul>
+
+			<input type="hidden" th:field="*{usePoint}" />
 			<input type="submit" value="次へ" class="send_button" />
 		</form>
 		<form action="/shared_shop/basket">

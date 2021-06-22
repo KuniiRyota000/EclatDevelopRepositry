@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <title>注文登録確 | シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -42,6 +42,12 @@
 			<td th:text="${basket.price}"></td>
 			<td th:text="${basket.orderNum}"></td>
 			<td th:text="${basket.subtotal}"></td>
+		</tr>
+
+		<tr>
+			<td colspan="3"></td>
+			<th class="total">使用ポイント</th>
+			<td th:text="${session.orderInfo.usePoint}" class="total"></td>
 		</tr>
 
 		<tr>

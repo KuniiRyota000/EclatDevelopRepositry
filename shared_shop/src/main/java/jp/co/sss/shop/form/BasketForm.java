@@ -45,5 +45,4 @@ public class BasketForm {
 	public void setOrderNum(Integer[] orderNum) {
 		this.orderNum = orderNum;
 	}
-
 }

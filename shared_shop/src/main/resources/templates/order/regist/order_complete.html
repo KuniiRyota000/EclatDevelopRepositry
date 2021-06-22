@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+    th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
 <head>
 <title>注文登録完了 | シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -15,6 +15,7 @@
 			<br />
 			注文手続きが完了しました。
 		</p>
+		<p class="complete_message" th:text="'今回の獲得ポイントは '+${gotPoint}+'ポイント です。'"></p>
 		<p class="complete_link">
 			<a href="/shared_shop/">
 				トップへ戻る
