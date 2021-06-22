@@ -7,10 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +24,6 @@ import jp.co.sss.shop.entity.Item;
 import jp.co.sss.shop.entity.Order;
 import jp.co.sss.shop.entity.OrderItem;
 import jp.co.sss.shop.entity.User;
-import jp.co.sss.shop.form.BasketForm;
 import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.repository.ItemRepository;
 import jp.co.sss.shop.repository.OrderItemRepository;
@@ -73,7 +75,7 @@ public class BasketCustomerController {
 	@RequestMapping("/basket/input/{itemId}")
 	public String inputItem(@PathVariable int itemId) {
 
-		BasketBean checkBasket=new BasketBean();
+		BasketBean basketItem=new BasketBean();
 		int subtotal=0;
 
 		/*
@@ -83,13 +85,13 @@ public class BasketCustomerController {
 		 */
 		if(!basketList.isEmpty()) {
 		for(int i = 0; i < basketList.size(); i++) {
-			checkBasket = basketList.get(i);
+			basketItem = basketList.get(i);
 
-			if(checkBasket.getId() == itemId) {
-				checkBasket.setOrderNum(checkBasket.getOrderNum()+1);
-				subtotal = checkBasket.getPrice()*checkBasket.getOrderNum();
-				checkBasket.setSubtotal(subtotal);
-				basketList.set(i, checkBasket);
+			if(basketItem.getId() == itemId) {
+				basketItem.setOrderNum(basketItem.getOrderNum()+1);
+				subtotal = basketItem.getPrice()*basketItem.getOrderNum();
+				basketItem.setSubtotal(subtotal);
+				basketList.set(i, basketItem);
 				session.setAttribute("basketList", basketList);
 
 				return "redirect:/basket";
@@ -193,7 +195,17 @@ public class BasketCustomerController {
 	 * お届け先入力画面へ遷移
 	 */
 	@RequestMapping("/order/regist/addressInput")
-	public String orderAddressInput() {
+	public String orderAddressInput(@ModelAttribute OrderForm form) {
+		User userInfo = (User) session.getAttribute("userInfo");
+
+		form.setPostalCode(userInfo.getPostalCode());
+		form.setAddress(userInfo.getAddress());
+		form.setName(userInfo.getName());
+		form.setPhoneNumber(userInfo.getPhoneNumber());
+		form.setUsePoint(0);
+
+		session.setAttribute("orderFormParam", form);
+
 		return "order/regist/order_address_input";
 	}
 
@@ -201,7 +213,11 @@ public class BasketCustomerController {
 	 * 注文情報セッションにお届け先入力情報登録 --> 支払方法選択画面にリダイレクト
 	 */
 	@RequestMapping(path="/regist/addressInputComplete", method = RequestMethod.POST)
-	public String addressInputComplete(OrderForm form) {
+	public String addressInputComplete(@Valid @ModelAttribute OrderForm form, BindingResult result) {
+		if(result.hasErrors()) {
+			return orderAddressInput(form);
+		}
+
 		orderInfo.setPostalCode(form.getPostalCode());
 		orderInfo.setAddress(form.getAddress());
 		orderInfo.setName(form.getName());
@@ -216,7 +232,17 @@ public class BasketCustomerController {
 	 * 支払方法選択画面へ遷移
 	 */
 	@RequestMapping("/order/regist/paymentInput")
-	public String orderPaymentInput() {
+	public String orderPaymentInput(@ModelAttribute OrderForm form) {
+		OrderBean orderInfo = (OrderBean) session.getAttribute("orderInfo");
+
+		form.setPostalCode(orderInfo.getPostalCode());
+		form.setAddress(orderInfo.getAddress());
+		form.setName(orderInfo.getName());
+		form.setPhoneNumber(orderInfo.getPhoneNumber());
+		form.setUsePoint(0);
+
+		session.setAttribute("orderFormParam", form);
+
 		return "order/regist/order_payment_input";
 	}
 
@@ -224,9 +250,23 @@ public class BasketCustomerController {
 	 * 注文情報セッションに支払方法入力情報登録 --> 注文確認選択画面にリダイレクト
 	 */
 	@RequestMapping(path="/regist/paymentInputComplete", method = RequestMethod.POST)
-	public String paymentInputComplete(OrderForm orderForm, BasketForm basketForm) {
-		orderInfo.setPayMethod(orderForm.getPayMethod());
-		orderInfo.setUsePoint(basketForm.getUsePoint());
+	public String paymentInputComplete(@Valid @ModelAttribute OrderForm form, BindingResult result, Model model) {
+		User userInfo = (User) session.getAttribute("userInfo");
+
+		if(form.getUsePoint() == null) {
+			form.setUsePoint(0);
+		}else if(form.getUsePoint() > userInfo.getPoint()) {
+			model.addAttribute("overUsePoint", "保持しているポイントを超えて指定することはできません。");
+			return orderPaymentInput(form);
+		}
+
+		if(result.hasErrors()) {
+			return orderPaymentInput(form);
+		}
+
+
+		orderInfo.setPayMethod(form.getPayMethod());
+		orderInfo.setUsePoint(form.getUsePoint());
 
 		int total=0;
 		for(int i = 0; i < basketList.size(); i++) {
@@ -254,42 +294,82 @@ public class BasketCustomerController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/order/regist/complete")
-	private String orderComplete() throws ParseException {
+	private String orderComplete(Model model) throws ParseException {
 		Order order = new Order();
 		List<OrderItem> orderList = new ArrayList<OrderItem>();
-
 		User user = (User) session.getAttribute("userInfo");
 
+		//合計金額の取得
 		int total = (int) session.getAttribute("total");
-		int point = (total - orderInfo.getUsePoint()) / 100;
+
+		//ポイント計算
+		int getPoint = (total - orderInfo.getUsePoint()) / 100;
 		user.setPoint(user.getPoint() - orderInfo.getUsePoint());
+		int totalPoint = getPoint + user.getPoint();
 
-		user.setPoint(point);
+		//ポイントのセット
+		user.setPoint(totalPoint);
+		order.setGotPoint(getPoint);
+		order.setUsedPoint(orderInfo.getUsePoint());
 
+		//userをusersテーブルに保存
 		int userId = user.getId();
 		userRepository.save(user);
 
+		//保存したuserを取得
 		User userInfo = userRepository.getOne(userId);
 
+		//orderをordersテーブルに保存
+		order = setOrder(order, userInfo);
+		orderRepository.save(order);
+
+		//取得したいレコードのorderId = orderIdListのサイズ
+		List<Integer> orderIdList = orderRepository.findIdByAll();
+		int orderId = orderIdList.size();
+		Order orderUpdate = orderRepository.getOne(orderId);
+
+		orderList = setOrderList(orderUpdate);
+		orderUpdate.setOrderItemsList(orderList);
+		orderRepository.save(orderUpdate);
+
+		model.addAttribute("gotPoint", orderUpdate.getGotPoint());
+
+		basketList.clear();
+		session.removeAttribute("basketList");
+		session.removeAttribute("orderInfo");
+		session.removeAttribute("total");
+
+		return "order/regist/order_complete";
+	}
+
+	public Order setOrder(Order order, User userInfo) throws ParseException {
+		//注文情報をセット
 		order.setPostalCode(orderInfo.getPostalCode());
 		order.setAddress(orderInfo.getAddress());
 		order.setName(orderInfo.getName());
 		order.setPhoneNumber(orderInfo.getPhoneNumber());
 		order.setPayMethod(orderInfo.getPayMethod());
+		java.sql.Date now = getSqlNowDate();
+		order.setInsertDate(now);
+		order.setUser(userInfo);
 
+		return order;
+	}
+
+	public java.sql.Date getSqlNowDate() throws ParseException{
 		Date now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		String nowDate = sdf.format(now);
 		now = sdf.parse(nowDate);
 		java.sql.Date sqlNowDate = new java.sql.Date(now.getTime());
-		order.setInsertDate(sqlNowDate);
 
-		order.setUser(userInfo);
-		orderRepository.save(order);
+		return sqlNowDate;
+	}
 
-		List<Integer> orderIdList = orderRepository.findIdByAll();
-		Order orderUpdate = orderRepository.getOne(orderIdList.size());
+	public List<OrderItem> setOrderList(Order orderUpdate) {
+		List<OrderItem> orderList = new ArrayList<OrderItem>();
 
+		//basketList内の商品分orderListにorderItemを追加
 		for(int i = 0; i < basketList.size(); i++) {
 			OrderItem orderItem = new OrderItem();
 			BasketBean basketItem = basketList.get(i);
@@ -306,14 +386,6 @@ public class BasketCustomerController {
 			oderItemRepository.save(orderItem);
 		}
 
-		orderUpdate.setOrderItemsList(orderList);
-		orderRepository.save(orderUpdate);
-
-		basketList.clear();
-		session.removeAttribute("basketList");
-		session.removeAttribute("orderInfo");
-		session.removeAttribute("total");
-
-		return "order/regist/order_complete";
+		return orderList;
 	}
 }
