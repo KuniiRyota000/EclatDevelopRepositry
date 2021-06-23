@@ -10,7 +10,7 @@
 		注文内容最終確認
 	</h2>
 	<br />
-	<table class="list_table item_detail" th:if="!${#lists.isEmpty(session.basketList)}">
+	<table class="list_table item_list" th:if="!${#lists.isEmpty(session.basketList)}">
 		<tr>
 			<th>
 				商品名
@@ -31,12 +31,12 @@
 
 		<tr th:each="basket: ${session.basketList}">
 			<td th:text="${basket.name}"></td>
-			<td th:text="${basket.image}">
+			<td>
 				<span th:if="${basket.image != null}">
-					<img th:src="@{/img/{image}(image=${basket.image})}"></img>
+					<img th:src="@{/img/{image}(image=${basket.image})}" class="item_image_list"></img>
 				</span>
-				<span th:if="${basketList.image == null}">
-					<img th:src="@{/img/common/no_image.jpg}"></img>
+				<span th:if="${basket.image == null}">
+					<img th:src="@{/img/common/no_image.jpg}" class="item_image_list"></img>
 				</span>
 			</td>
 			<td th:text="${basket.price}"></td>
