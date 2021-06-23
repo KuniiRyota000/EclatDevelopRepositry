@@ -23,7 +23,12 @@
 					<dt>価格：</dt>
 					<dd th:text="${item.price}"></dd>
 					<dt>在庫：</dt>
-					<dd th:text="${item.stock}"></dd>
+					<dd th:block>
+					<p th:if="${item.stock==0}" th:text="在庫なし"></p>
+					<p th:if="${item.stock>=1 && item.stock<=5}" th:text="${item.stock}"></p>
+					<p th:if="${item.stock>=6}" th:text="在庫あり"></p>
+					</dd>
+					</th:block>
 					<dt>カテゴリ：</dt>
 					<dd th:text="${item.categoryName}"></dd>
 					<dt>説明：</dt>
@@ -32,8 +37,8 @@
 			</div>
 
 <div class="detail_button_area">
-				<form th:action="@{/basket/input/{itemId}(itemId=${item.id})}">
-				    <input type="submit" value="買い物かごへ入れる"  class="back_button" />
+				<form th:action="@{/basket}">
+				    <input th:if="${item.stock>=1}" type="submit" value="買い物かごへ入れる"  class="back_button"/>
 				</form>
 				</div>
 
