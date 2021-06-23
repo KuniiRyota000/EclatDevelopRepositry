@@ -34,7 +34,8 @@
 						<input class="delete" type="submit" value="削除" />
 					</form>
 				</td>
-				<td th:text="${basket.stock}"></td>
+				<td th:if="${basket.stock} < 6" th:text="${basket.stock}"></td>
+				<td th:if="${basket.stock} >= 6" th:text="在庫あり"></td>
 			</tr>
 		</table>
 
@@ -47,9 +48,9 @@
 		</form>
 	</div>
 
-	<div class="list_table basket">
+	<div th:if="${#lists.isEmpty(session.basketList)}" class="list_table basket">
 		<div th:if="${session.itemName} != null" th:text="'※' + ${session.itemName} + 'は、在庫不足のため、数を増やすことができません。'" class="err"></div>
-		<div th:if="${#lists.isEmpty(session.basketList)}">現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
+		<div>現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
 	</div>
 </body>
 </html>
