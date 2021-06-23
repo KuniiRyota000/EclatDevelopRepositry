@@ -20,6 +20,7 @@ import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.bean.OrderItemBean;
 import jp.co.sss.shop.entity.Order;
 import jp.co.sss.shop.entity.OrderItem;
+import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.form.OrderShowForm;
 import jp.co.sss.shop.repository.OrderRepository;
 import jp.co.sss.shop.util.PriceCalc;
@@ -61,8 +62,12 @@ public class OrderShowCustomerController {
 	public String showOrderList(Model model, @ModelAttribute OrderShowForm form,
 			Pageable pageable) {
 
-		// すべての注文情報を取得
-		Page<Order> orderList = orderRepository.findAllOrderByInsertDateDesc(pageable);
+		//ログイン中の会員IDを取得
+		User userInfo = (User) session.getAttribute("userInfo");
+		Integer userId = userInfo.getId();
+
+		// 会員IDに該当する注文情報を注文日付順で検索
+		Page<Order> orderList = orderRepository.findByUserIdOrderByInsertDateDesc(userId, pageable);
 
 		// 注文情報リストを生成
 		List<OrderBean> orderBeanList = new ArrayList<OrderBean>();
