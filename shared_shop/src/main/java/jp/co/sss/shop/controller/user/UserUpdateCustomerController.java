@@ -140,6 +140,8 @@ public class UserUpdateCustomerController {
 			BeanUtils.copyProperties(form, userBean);
 			// 会員情報をViewに渡す
 			session.setAttribute("user", userBean);
+			//変更した会員情報をuserInfoに渡す
+			session.setAttribute("userInfo", userBean);
 		}
 
 		return "redirect:/user/update/complete";

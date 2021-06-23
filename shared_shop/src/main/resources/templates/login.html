@@ -11,8 +11,11 @@
 
 	<body th:object="${loginForm}" class="user login">
 
-		<h2 class="page_title">ログイン</h2>
-		<p class="description">メールアドレスとパスワードを入力してください。</p>
+		<a th:href="@{/}">トップへ戻る</a>
+
+        <div  class="description_login">
+		<p>ログイン</p>
+		<p>メールアドレスとパスワードを入力してください。</p>
 
 		<form method="post" th:action="@{/login}" th:object="${loginForm}">
 
@@ -34,10 +37,14 @@
 					<tr>
 						<th class="label"></th>
 						<td class="input"><input type="submit" value="ログイン" /></td>
+
+
+
 					</tr>
 				</tbody>
 			</table>
 		</form>
+		</div>
 
 	</body>
 </html>

@@ -33,7 +33,7 @@
 			</ul>
 			<form th:action="@{/user/delete/complete}" method="post" class="user_info_form">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="削除" class="send_button delete" />
+				<input type="submit" value="退会" class="send_button delete" />
 			</form>
 			<form method="post" th:action="@{/user/detail/{id}(id=${user.id})}" class="user_info_form">
 				<input type="hidden" name="id" th:value="${user.id}" />

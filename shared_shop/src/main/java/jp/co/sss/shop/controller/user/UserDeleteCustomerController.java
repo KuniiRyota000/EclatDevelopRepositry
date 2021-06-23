@@ -61,7 +61,9 @@ public class UserDeleteCustomerController {
 	 * @return "?" 会員情報 削除完了画面へ
 	 */
 	@RequestMapping(path = "/user/delete/complete", method = RequestMethod.POST)
-	public String deleteComplete(@ModelAttribute UserForm form) {
+	public String deleteComplete(@ModelAttribute UserForm form, HttpSession session) {
+
+		session.invalidate();
 
 		// 削除対象の会員情報を取得
 		User user = userRepository.findById(form.getId()).orElse(null);
@@ -88,8 +90,8 @@ public class UserDeleteCustomerController {
 	}
 
 	@RequestMapping(path = "/delete_back")
-	public String index(HttpSession session) {
-		session.invalidate();
+	public String index() {
+
 		return "redirect:/";
 
 	}
