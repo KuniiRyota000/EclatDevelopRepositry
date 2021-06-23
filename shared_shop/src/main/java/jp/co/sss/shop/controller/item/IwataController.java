@@ -39,11 +39,11 @@ public class IwataController {
 	 */
 
 	/**新着一覧表示*/
-	@RequestMapping(path = "/item/list/{sortType}")
-	public String itemlist(int deleteFlag, Pageable pageable, Model model) {
-		model.addAttribute("items", itemRepository.findByDeleteFlagOrderByInsertDateDesc(deleteFlag, pageable));
-		return "item_list";
-	}
+	//	@RequestMapping(path = "/item/list/{sortType}")
+	//	public String itemlist(int deleteFlag, Pageable pageable, Model model) {
+	//		model.addAttribute("items", itemRepository.findByDeleteFlagOrderByInsertDateDesc(deleteFlag, pageable));
+	//		return "item_list";
+	//	}
 
 	/**
 	 * トップ画面 表示処理
@@ -53,24 +53,48 @@ public class IwataController {
 	 * @return "/" トップ画面へ
 	 */
 	//カテゴリ別検索
-	@RequestMapping(path = "/item/list/category/1", method = RequestMethod.GET)
-	public String itemListCategory1(Integer categoryId, Model model, Pageable pageable) {
-		Page<Item> itemList = itemRepository.findByDeleteFlagCategoryIdOrderByInsertDateDesc(categoryId, pageable);
-		// エンティティ内の検索結果をJavaBeansにコピー
-		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
-		model.addAttribute("pages", itemList);
-		model.addAttribute("items", itemBeanList);
-		model.addAttribute("selectedCategory", categoryId);
+	@RequestMapping(path = "/item/list/category/{sortType}", method = RequestMethod.GET)
+	public String itemListCategory1(@PathVariable("sortType") Integer sortType, Integer categoryId, Model model,
+			Pageable pageable) {
+		if (sortType == 1) {
+			Page<Item> itemList = itemRepository.findByDeleteFlagCategoryIdOrderByInsertDateDesc(categoryId, pageable);
+			// エンティティ内の検索結果をJavaBeansにコピー
+			List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+			model.addAttribute("pages", itemList);
+			model.addAttribute("items", itemBeanList);
+			model.addAttribute("selectedCategory", categoryId);
+			return "item/list/item_list";
+		}
+		if (sortType == 2) {
+			Page<Item> itemList = itemRepository.findByDeleteFlagCategoryIdOrderBySalesFiguresDesc(categoryId,
+					pageable);
+			// エンティティ内の検索結果をJavaBeansにコピー
+			List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+			model.addAttribute("pages", itemList);
+			model.addAttribute("items", itemBeanList);
+			model.addAttribute("selectedCategory", categoryId);
+			return "item/list/item_list";
+		}
 		return "item/list/item_list";
 	}
 
 	//価格帯
-	@RequestMapping(path = "/item/list/price/1", method = RequestMethod.GET) //delet
-	public String itemListPrice(Item item, String min, String max, Model model, Pageable pageable) {
+	@RequestMapping(path = "/item/list/price/{sortType}", method = RequestMethod.GET)
+	public String itemListPrice(@PathVariable("sortType") Integer sortType, Item item, String min, String max,
+			Model model, Pageable pageable) {
 		if (max.isEmpty()) {
 			max = min;
+			Integer minPrice = Integer.valueOf(min);
+			Integer maxPrice = Integer.valueOf(max);
+
+			Page<Item> itemList = itemRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+			// エンティティ内の検索結果をJavaBeansにコピー
+			List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+			model.addAttribute("pages", itemList);
+			model.addAttribute("items", itemBeanList);
 			return "item/list/item_list";
 		} else if (min.isEmpty()) {
+			min = max;
 			min = "0";
 		}
 		Integer minPrice = Integer.valueOf(min);
