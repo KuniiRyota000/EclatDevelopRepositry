@@ -55,7 +55,7 @@
 						</label>
 
 					</li>
-					<li th:if="${session.user.authority == 1}">
+					<li th:if="${session.user.authority == 1 && user.authority==2}">
 						<label>
 							<span class="input_title">ポイント</span>
 							<input type="number" name="point" th:value="${user.point}"/>
@@ -66,7 +66,7 @@
 				<input type="hidden" name="authority" th:value="${user.authority}" />
 				<input type="hidden" name="id" th:value="${user.id}"/>
 				<input type="hidden" name="backflg" value=0 />
-				<input th:if="${session.user.authority == 0}" type="hidden" name="point" th:value="${user.point}"/>
+				<input th:if="${session.user.authority == 0 || session.user.authority==1}" type="hidden" name="point" th:value="${user.point}"/>
 				<input type="submit" value="確認" class="send_button" />
 
 			</form>

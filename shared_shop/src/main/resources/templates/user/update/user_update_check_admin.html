@@ -34,7 +34,7 @@
 					<span class="input_title">電話番号</span>
 					<span class="input_value" th:text="${userForm.phoneNumber}"></span>
 				</li>
-				<li th:if="${session.user.authority == 1}">
+				<li th:if="${session.user.authority == 1 && userForm.authority==2}">
 					<span class="input_title">ポイント</span>
 					<span class="input_value" th:text="${userForm.point}"></span>
 				</li>
