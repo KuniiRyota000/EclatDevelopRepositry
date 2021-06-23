@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.shop.bean.ItemBean;
@@ -44,34 +45,31 @@ public class ItemShowCustomerController {
 		return "index";
 	}
 
-	/**新着一覧表示*/
-	@RequestMapping(path = "/item/list/1")
-	public String itemlist(Pageable pageable, Model model) {
-		Page<Item> itemList = itemRepository.findByDeleteFlagOrderByInsertDateDesc(Constant.NOT_DELETED, pageable);
+	/**新着一覧表示と売れ筋順*/
+	@RequestMapping(path = "/item/list/{sortType}")
+	public String itemlist(@PathVariable Integer sortType, Pageable pageable, Model model) {
+		if (sortType == 1) {
+			Page<Item> itemList = itemRepository.findByDeleteFlagOrderByInsertDateDesc(Constant.NOT_DELETED, pageable);
 
-		// エンティティ内の検索結果をJavaBeansにコピー
-		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
+			// エンティティ内の検索結果をJavaBeansにコピー
+			List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 
-		// 商品情報をViewへ渡す
-		model.addAttribute("pages", itemList);
-		model.addAttribute("items", itemBeanList);
-		model.addAttribute("url", "/item/list");
+			// 商品情報をViewへ渡す
+			model.addAttribute("pages", itemList);
+			model.addAttribute("items", itemBeanList);
+		}
+		if (sortType == 2) {
+			Page<Item> salesList = itemRepository.findByDeleteFlagOrderBySalesFiguresDesc(Constant.NOT_DELETED,
+					pageable);
 
+			// エンティティ内の検索結果をJavaBeansにコピー
+			List<ItemBean> salesBeanList = BeanCopy.copyEntityToItemBean(salesList.getContent());
+
+			// 商品情報をViewへ渡す
+			model.addAttribute("pages", salesList);
+			model.addAttribute("items", salesBeanList);
+		}
 		return "item/list/item_list";
-	}
-
-	@RequestMapping(path = "/item/list/2")
-	public String itemByList(Pageable pageable, Model model) {
-		Page<Item> itemList = itemRepository.findByDeleteFlagOrderBySalesFiguresDesc(Constant.NOT_DELETED, pageable);
-
-		// エンティティ内の検索結果をJavaBeansにコピー
-		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
-
-		// 商品情報をViewへ渡す
-		model.addAttribute("pages", itemList);
-		model.addAttribute("items", itemBeanList);
-		model.addAttribute("url", "/item/list");
-		return "item/list/item_list_2";
 	}
 }
 /**

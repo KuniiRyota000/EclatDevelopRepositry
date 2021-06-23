@@ -7,10 +7,19 @@
 </head>
 <body>
 <h2 class="title">商品一覧</h2>
-<div>
-<span>新着順</span>
-<a th:href="@{/item/list/{sortType}(sortType=2)}">売れ筋順</a>
-</div>
+	<form th:action="@{/item/list/1}" class="solt_select">
+	<div th:unless="${#lists.isEmpty(items)}">
+			<div th:switch="${sortType}">
+			<p th:case="1">
+			<a class="javascript:void(0)">新着順</a>
+			<a th:href="@{/item/list/2}">売れ筋順</a>
+			</p>
+			<p th:case="2">
+			<a th:href="@{/item/list/1}">新着順</a>
+			<a class="javascript:void(0)">売れ筋順</a>
+			</p>
+</div></div>
+</form>
 <!--/* 注文情報が存在しない場合 */-->
 	<div th:if="${#lists.isEmpty(items)}">
 			<p th:text="#{itemList.none}"></p>
