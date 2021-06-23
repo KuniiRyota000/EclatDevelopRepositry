@@ -24,6 +24,7 @@ div.errMessage{
 
 .login_form {
 	margin-top: 30px;
+	background: #e8fce2;
 }
 
 .login_form .label {
@@ -489,7 +490,7 @@ select {
 	text-align: right;
 	padding-right: 10px;
 }
-.admin .detail_table th{
+.admin.detail_table th{
 	background: #ffc6b9;
 }
 .detail_table td{
@@ -658,4 +659,10 @@ p.link_center {
 /* ---- 買い物かご ---- */
 .err {
 	color: #FF0000;
+}
+
+.description_login {
+	margin-top: 50px;
+	text-align: center;
+	background: #e8fce2;
 }
