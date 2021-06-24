@@ -3,7 +3,7 @@
     th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>会員詳細 | シェアードショップ</title>
 </head>
 <body class="admin user_detail_admin">
 		<h2 class="title">会員詳細</h2>
@@ -11,43 +11,43 @@
 			<ul class="input_list">
 				<li>
 					<span class="input_title">メールアドレス</span>
-					<span class="input_value" th:text="${user.email}"></span>
+					<span class="input_value underline_green" th:text="${user.email}"></span>
 				</li>
 				<li>
 					<span class="input_title">氏名</span>
-					<span class="input_value" th:text="${user.name}"></span>
+					<span class="input_value underline_green" th:text="${user.name}"></span>
 				</li>
 				<li>
 					<span class="input_title">郵便番号</span>
-					<span class="input_value" th:text="${user.postalCode}"></span>
+					<span class="input_value underline_green" th:text="${user.postalCode}"></span>
 				</li>
 				<li>
 					<span class="input_title">住所</span>
-					<span class="input_value" th:text="${user.address}"></span>
+					<span class="input_value underline_green" th:text="${user.address}"></span>
 				</li>
 				<li>
 					<span class="input_title">電話番号</span>
-					<span class="input_value" th:text="${user.phoneNumber}"></span>
+					<span class="input_value underline_green" th:text="${user.phoneNumber}"></span>
 				</li>
 					<li>
 					<span class="input_title">ポイント</span>
-					<span class="input_value" th:text="${user.point}"></span>
+					<span class="input_value underline_green" th:text="${user.point}"></span>
 				</li>
 				</ul>
 		</div>
 
 	<div class="detail_button_area">
 			<form th:action="@{/}">
-				<input type="submit" value="戻る" />
+				<input type="submit" value="戻る" class="common_button" />
 			</form>
 				<form th:action="@{/user/update/input}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="変更" />
+				<input type="submit" value="変更" class="common_button"/>
 			</form>
 
 			<form th:action="@{/user/delete/check}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="退会" class="withdrawal"/>
+				<input type="submit" value="退会" class="delete_button"/>
 				</form>
 				</div>
 

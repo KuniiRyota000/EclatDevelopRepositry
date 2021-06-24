@@ -5,10 +5,10 @@
 </head>
 <body>
 <ul th:fragment="layout-menu" class="navi_menu">
-	<li><a th:href="@{/}">トップ</a></li>
+	<li><a th:href="@{/}">Top</a></li>
 	<li><a th:href="@{/item/list/1}">新着一覧</a></li>
-	<li><a th:href="@{/basket}">買い物かご</a></li>
-	<th:block th:if="${session.user != null}"><li><a th:href="@{/order/list}">注文一覧</a></li></th:block>
+	<th:block th:if="${session.user != null}"><li><a th:href="@{/order/list}">注文履歴</i></a></li></th:block>
+	<li><a th:href="@{/basket}"><i class="fas fa-shopping-cart"></i></a></li>   <!-- クラス名はイラストの参照先を表している。 -->
 	</ul>
 </body>
 </html>
