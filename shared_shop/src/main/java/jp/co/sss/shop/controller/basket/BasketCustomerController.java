@@ -52,7 +52,7 @@ public class BasketCustomerController extends Basket{
 		for(int i = 0; i < basketList.size(); i++) {
 			basketItem = basketList.get(i);
 
-			if(basketItem.getId() == itemId) {
+			if(basketItem.getId() == itemId && basketItem.getOrderNum() < basketItem.getStock()) {
 				addOrderNum(basketItem, i);
 
 				return "redirect:/basket";
@@ -100,15 +100,11 @@ public class BasketCustomerController extends Basket{
 		BasketBean basketItem=basketList.get(index);
 
 		if(basketItem.getOrderNum() >= 2) {
-			basketItem.setOrderNum(basketItem.getOrderNum() -1);
-			int subtotal=basketItem.getPrice()*basketItem.getOrderNum();
-			basketItem.setSubtotal(subtotal);
-			basketList.set(index, basketItem);
+			subOrderNum(basketItem, index);
 		}else {
 			deleteItem(index);
 		}
 
-		session.setAttribute("basketList", basketList);
 		return "redirect:/basket";
 	}
 
@@ -210,6 +206,7 @@ public class BasketCustomerController extends Basket{
 	public String orderCheck() {
 		return "order/regist/order_check";
 	}
+
 	/**
 	 * 注文完了
 	 * @throws ParseException
