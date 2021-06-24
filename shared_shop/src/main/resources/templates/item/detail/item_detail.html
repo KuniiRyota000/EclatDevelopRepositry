@@ -40,13 +40,13 @@
 			<form th:action="@{/basket/input/{itemId}(itemId=${item.id})}">
 			    <input th:if="${item.stock>=1}" type="submit" value="買い物かごへ入れる"  class="common_button"/>
 			</form>
-			</div>
+		</div>
 
 		<div class="detail_button_area">
-			<form th:action="@{/}">
-			    <input type="submit" value="戻る"  class="common_button"  />
+			<form th:action="@{/item/list/1}">
+			    <input type="submit" value="戻る"  class="common_button" />
 			</form>
-			</div>
-			</div>
+		</div>
+	</div>
 </body>
 </html>
