@@ -26,17 +26,17 @@
 				<td th:text="${basket.orderNum}"></td>
 				<td>
 					<form th:action="@{/basket/addOrderNum/{index} (index = ${st.index})}">
-						<input type="submit" value="+1" />
+						<input type="submit" value="+1"  class="common_button" />
 					</form>
 				</td>
 				<td>
 					<form th:action="@{/basket/subOrderNum/{index} (index = ${st.index})}">
-						<input type="submit" value="-1" />
+						<input type="submit" value="-1"   class="common_button"/>
 					</form>
 				</td>
 				<td>
 					<form th:action="@{/basket/deleteItem/{index} (index = ${st.index})}">
-						<input class="delete" type="submit" value="削除" />
+						<input class="delete_button" type="submit" value="削除" />
 					</form>
 				</td>
 				<td th:if="${basket.stock} < 6" th:text="${basket.stock}"></td>
@@ -45,11 +45,11 @@
 		</table>
 
 		<form action="/shared_shop/order/regist/addressInput">
-			<input type="submit" value="ご注文のお手続き" />
+			<input type="submit" value="ご注文のお手続き"  class="send_button_eclat" />
 		</form>
 
 		<form action="/shared_shop/basket/deleteAllItem">
-			<input type="submit" value="買い物かごを空にする" />
+			<input  type="submit" value="買い物かごを空にする" class="delete_button" />
 		</form>
 	</div>
 
