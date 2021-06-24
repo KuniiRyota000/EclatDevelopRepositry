@@ -662,5 +662,25 @@ p.link_center {
 	margin-top: 50px;
 	text-align: center;
 	background: #e8fce2;
+}
 
+.user_info_form_area .send_button_eclat,
+.item_info_form_area .send_button_eclat {
+	background: #B5FFED;
+	 transition: .4s;
+}
+
+.user_info_form_area .send_button_eclat:hover {
+ background-color:#5DDEC8;
+  color:#FFF;
+}
+
+.send_button_eclat {
+	background: #B5FFED;
+	 transition: .4s;
+}
+
+.send_button_eclat:hover {
+ background-color:#5DDEC8;
+  color:#FFF;
 }
