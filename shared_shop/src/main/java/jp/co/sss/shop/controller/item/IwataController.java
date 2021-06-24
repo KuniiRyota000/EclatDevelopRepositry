@@ -82,19 +82,18 @@ public class IwataController {
 	@RequestMapping(path = "/item/list/price/{sortType}", method = RequestMethod.GET)
 	public String itemListPrice(@PathVariable("sortType") Integer sortType, Item item, String min, String max,
 			Model model, Pageable pageable) {
-		if (max.isEmpty()) {
+		if (max == "") {
 			max = min;
 			Integer minPrice = Integer.valueOf(min);
-			Integer maxPrice = Integer.valueOf(max);
 
-			Page<Item> itemList = itemRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+			Page<Item> itemList = itemRepository.findByMinOrHigher(minPrice, pageable);
 			// エンティティ内の検索結果をJavaBeansにコピー
 			List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 			model.addAttribute("pages", itemList);
 			model.addAttribute("items", itemBeanList);
+
 			return "item/list/item_list";
-		} else if (min.isEmpty()) {
-			min = max;
+		} else if (min == "") {
 			min = "0";
 		}
 		Integer minPrice = Integer.valueOf(min);
@@ -105,6 +104,7 @@ public class IwataController {
 		List<ItemBean> itemBeanList = BeanCopy.copyEntityToItemBean(itemList.getContent());
 		model.addAttribute("pages", itemList);
 		model.addAttribute("items", itemBeanList);
+
 		return "item/list/item_list";
 	}
 
