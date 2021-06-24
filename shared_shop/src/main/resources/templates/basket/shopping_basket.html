@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>買い物かご | シェアードショップ</title>
+<meta charset="UTF-8" />
 </head>
-<body>
+<body class="main">
+	<h2 class="title">買い物かご</h2>
 
+	<div class="list_table basket" th:if="!${#lists.isEmpty(session.basketList)}">
+		<div th:if="${session.itemName} != null" th:text="'※' + ${session.itemName} + 'は、在庫不足のため、数を増やすことができません。'" class="err"></div>
+
+		<table>
+			<tr>
+				<th>商品名</th>
+				<th>数</th>
+				<th>+1</th>
+				<th>-1</th>
+				<th>操作</th>
+				<th>在庫</th>
+			</tr>
+
+			<tr th:each="basket,st : ${session.basketList}">
+				<td th:text="${basket.name}"></td>
+				<td th:text="${basket.orderNum}"></td>
+				<td>
+					<form th:action="@{/basket/addOrderNum/{index} (index = ${st.index})}">
+						<input type="submit" value="+1"  class="common_button" />
+					</form>
+				</td>
+				<td>
+					<form th:action="@{/basket/subOrderNum/{index} (index = ${st.index})}">
+						<input type="submit" value="-1"   class="common_button"/>
+					</form>
+				</td>
+				<td>
+					<form th:action="@{/basket/deleteItem/{index} (index = ${st.index})}">
+						<input class="delete_button" type="submit" value="削除" />
+					</form>
+				</td>
+				<td th:if="${basket.stock} < 6" th:text="${basket.stock}"></td>
+				<td th:if="${basket.stock} >= 6" th:text="在庫あり"></td>
+			</tr>
+		</table>
+
+		<form action="/shared_shop/order/regist/addressInput">
+			<input type="submit" value="ご注文のお手続き"  class="send_button_eclat" />
+		</form>
+
+		<form action="/shared_shop/basket/deleteAllItem">
+			<input  type="submit" value="買い物かごを空にする" class="delete_button" />
+		</form>
+	</div>
+
+	<div th:if="${#lists.isEmpty(session.basketList)}" class="list_table basket">
+		<div th:if="${session.itemName} != null" th:text="'※' + ${session.itemName} + 'は、在庫不足のため、数を増やすことができません。'" class="err"></div>
+		<div>現在、お客様の買い物かごには商品がありません。商品をお選びください。</div>
+	</div>
 </body>
 </html>

@@ -58,10 +58,21 @@
 				<td th:text="${orderItem.orderNum}"></td>
 				<td th:text="${orderItem.subtotal}"></td>
 			</tr>
+
 			<tr>
 				<td colspan="2"></td>
-				<td>合計</td>
+				<td>使用ポイント</td>
+				<td th:text="${order.usedPoint}"></td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td>支払金額</td>
 				<td th:text="${total}"></td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td>獲得ポイント</td>
+				<td th:text="${order.gotPoint}"></td>
 			</tr>
 		</table>
 		<form th:action="@{/order/list/admin}"  class="detail_button_area">

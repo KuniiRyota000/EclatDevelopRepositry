@@ -45,6 +45,7 @@ public class UserUpdateCustomerController {
 	 * @param form  会員情報フォーム
 	 * @return "" 会員情報 変更入力画面へ
 	 **/
+
 	@RequestMapping(path = "/user/update/input", method = RequestMethod.POST)
 	public String updateInput(boolean backFlg, Model model, @ModelAttribute UserForm form) {
 
@@ -139,6 +140,8 @@ public class UserUpdateCustomerController {
 			BeanUtils.copyProperties(form, userBean);
 			// 会員情報をViewに渡す
 			session.setAttribute("user", userBean);
+			//変更した会員情報をuserInfoに渡す
+			session.setAttribute("userInfo", userBean);
 		}
 
 		return "redirect:/user/update/complete";
@@ -153,5 +156,6 @@ public class UserUpdateCustomerController {
 	public String updateCompleteRedirect() {
 
 		return "user/update/user_update_complete";
+
 	}
 }

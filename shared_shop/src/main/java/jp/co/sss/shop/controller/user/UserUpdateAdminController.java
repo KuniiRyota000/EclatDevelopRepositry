@@ -81,22 +81,22 @@ public class UserUpdateAdminController {
 	 * @param model  Viewとの値受渡し
 	 * @param form   会員情報フォーム
 	 * @param result 入力チェック結果
-	 * @return 
-	 * 入力値エラーあり："user/update/user_update_input_admin" 会員情報変更入力画面へ 
+	 * @return
+	 * 入力値エラーあり："user/update/user_update_input_admin" 会員情報変更入力画面へ
 	 * 入力値エラーなし："user/update/user_update_check_admin" 会員情報 変更確認画面へ
 	 */
 	@RequestMapping(path = "/user/update/check/admin", method = RequestMethod.POST)
-	public String updateCheck( Model model, @Valid @ModelAttribute UserForm form, BindingResult result) {
+	public String updateCheck(Model model, @Valid @ModelAttribute UserForm form, BindingResult result) {
 		// 入力値にエラーがあった場合、会員情報 変更入力画面表示処理に戻る
 		if (result.hasErrors()) {
-			
+
 			UserBean userBean = new UserBean();
 			// 入力値を会員情報にコピー
 			BeanUtils.copyProperties(form, userBean);
 
 			// 会員情報をViewに渡す
 			model.addAttribute("user", userBean);
-			
+
 			return "user/update/user_update_input_admin";
 		}
 
@@ -140,11 +140,13 @@ public class UserUpdateAdminController {
 			BeanUtils.copyProperties(form, userBean);
 			// 会員情報をViewに渡す
 			session.setAttribute("user", userBean);
+			//変更した会員情報をuserInfoに渡す
+			session.setAttribute("userInfo", userBean);
 		}
 
 		return "redirect:/user/update/complete/admin";
 	}
-	
+
 	/**
 	 * 会員情報変更完了画面表示
 	 *
@@ -152,7 +154,7 @@ public class UserUpdateAdminController {
 	 */
 	@RequestMapping(path = "/user/update/complete/admin", method = RequestMethod.GET)
 	public String updateCompleteRedirect() {
-		
+
 		return "user/update/user_update_complete_admin";
 	}
 

@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>支払方法選択 | シェアードショップ</title>
+<meta charset="UTF-8" />
 </head>
 <body>
+	<h2 class="title">お支払い方法選択</h2>
 
+	<div class="user_info_form_area">
+		<form method="post"
+			  action="/shared_shop/regist/paymentInputComplete"
+			  th:object="${orderForm}">
+
+			<ul class="payment_method_select">
+				<li class="err" th:errors="*{usePoint}"></li>
+				<li class="err" th:text="${overUsePoint}"></li>
+
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="1"
+						checked="checked"/>
+						クレジットカード
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="2" />
+						銀行振り込み
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="3" />
+						着払い
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="4" />
+						電子マネー
+					</label>
+				</li>
+				<li>
+					<label class="radio_label">
+						<input type="radio" name="payMethod" value="5" />
+						コンビニ決済
+					</label>
+				</li>
+				<li>
+					使用ポイント
+					<input type="text" th:field="*{usePoint}" />
+				</li>
+			</ul>
+
+			<input type="hidden" th:field="*{postalCode}" />
+			<input type="hidden" th:field="*{address}" />
+			<input type="hidden" th:field="*{name}" />
+			<input type="hidden" th:field="*{phoneNumber}" />
+			<input type="submit" class="send_button_eclat" value="次へ" />
+		</form>
+		<form action="/shared_shop/order/regist/addressInput">
+			<input type="submit" value="戻る" class="common_button"/>
+		</form>
+	</div>
 </body>
 </html>

@@ -62,7 +62,7 @@ public class UserShowCustomerController {
 	 * @param session セッション情報
 	 * @return "" 会員詳細表示画面へ
 	 */
-	@RequestMapping(path = "")
+	@RequestMapping(path = "/user/detail/{id}")
 	public String showUser(@PathVariable int id, Model model, @ModelAttribute UserForm form, HttpSession session) {
 		// 表示対象の会員情報を取得
 		User user = userRepository.findById(form.getId()).orElse(null);
@@ -75,6 +75,6 @@ public class UserShowCustomerController {
 		// 会員情報をViewに渡す
 		model.addAttribute("user", userBean);
 
-		return "";
+		return "user/detail/user_detail";
 	}
 }

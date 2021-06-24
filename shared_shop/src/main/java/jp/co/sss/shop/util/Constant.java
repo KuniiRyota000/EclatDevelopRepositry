@@ -20,17 +20,17 @@ public class Constant {
 
 	/** 戻るフラグの値（戻るボタン押下時） */
 	public static final int 		BACK_FLG_TRUE = 1;
-	
-	
+
+
 	/**
 	 * 商品画像のアップロード先 (注意) ファイルの保存場所はeclipseの環境構築の操作内容によってことなる場合があります。
 	 * ファイルアップロードに失敗した場合は、下記のパスを修正してください。
 	 */
-	public static final String FILE_UPLOAD_PATH = "C:/Users/edu/Documents/workspace-spring-tool-suite-4-4.0.0.RELEASE/shared_shop/src/main/resources/static/img";
-	
+	public static final String FILE_UPLOAD_PATH = "C:/Users/edu/Desktop/shared_shop/img";
+
 	/** CSS保存用フォルダの名前 */
 	public static final String CSS_FOLDER = "/css/";
-	
+
 	/** 画像ファイル保存用フォルダの名前 */
 	public static final String IMAGE_FOLDER = "/img/";
 }

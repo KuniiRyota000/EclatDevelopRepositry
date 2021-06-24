@@ -16,8 +16,15 @@ p {
 }
 
 /* ---- 入力フォーム(ログイン) ---- */
+
+div.errMessage{
+	 color: red;
+	text-align: left;
+}
+
 .login_form {
 	margin-top: 30px;
+	background: #e8fce2;
 }
 
 .login_form .label {
@@ -82,6 +89,12 @@ p {
 
 /* ---- ボタン(削除) ---- */
 [type=submit].delete {
+	background: #d22222;
+	color: white;
+}
+
+/* ---- ボタン(退会) ---- */
+[type=submit].withdrawal {
 	background: #d22222;
 	color: white;
 }
@@ -249,12 +262,12 @@ p {
 }
 
 .input_list .error_message {
-	
+
 	display: block;
 	line-height: 0.9em;
 	font-size: 0.9rem;
 	color: #C00;
-	
+
 }
 
 .input_list .error_list{
@@ -336,6 +349,12 @@ p {
 .item_detail_area + .user_info_form {
 	clear: both;
 }
+.item_image_list{
+	width:50px;
+	height:38px;
+}
+
+
 
 /* スキルアップテクニック9
  * :first-of-typeは擬似クラスの一種で、
@@ -386,10 +405,7 @@ select {
 	border: 1px solid #808080;
 	border-radius: 6px;
 	padding: 2px 10px;
-	color: #12526d;
-	background: #fff;
 	box-shadow: 1px 2px 2px #eee;
-	text-shadow: 1px 1px 1px #d8d8d8;
 }
 
 /* スキルアップテクニック10
@@ -423,7 +439,7 @@ select {
 .detail_table th {
 	white-space: nowrap;
 	padding: 5px;
-    background: #add8e6;
+    background: #93ccbe;
     font-weight: normal;
     position: relative;
 }
@@ -471,7 +487,7 @@ select {
 	text-align: right;
 	padding-right: 10px;
 }
-.admin .detail_table th{
+.admin.detail_table th{
 	background: #ffc6b9;
 }
 .detail_table td{
@@ -640,4 +656,31 @@ p.link_center {
 /* ---- 買い物かご ---- */
 .err {
 	color: #FF0000;
+}
+
+.login_all{
+	margin-top: 50px;
+	text-align: center;
+	background: #e8fce2;
+}
+
+.user_info_form_area .send_button_eclat,
+.item_info_form_area .send_button_eclat {
+	background: #B5FFED;
+	 transition: .4s;
+}
+
+.user_info_form_area .send_button_eclat:hover {
+ background-color:#5DDEC8;
+  color:#FFF;
+}
+
+.send_button_eclat {
+	background: #B5FFED;
+	 transition: .4s;
+}
+
+.send_button_eclat:hover {
+ background-color:#5DDEC8;
+  color:#FFF;
 }

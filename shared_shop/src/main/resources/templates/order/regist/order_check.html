@@ -1,10 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>注文確認 | シェアードショップ</title>
+<meta charset="UTF-8" />
 </head>
 <body>
+	<h2 class="title">
+		注文内容最終確認
+	</h2>
+	<br />
+	<table class="list_table item_list" th:if="!${#lists.isEmpty(session.basketList)}">
+		<tr>
+			<th>
+				商品名
+			</th>
+			<th>
+				商品画像
+			</th>
+			<th>
+				単価
+			</th>
+			<th>
+				数量
+			</th>
+			<th>
+				小計
+			</th>
+		</tr>
 
+		<tr th:each="basket: ${session.basketList}">
+			<td th:text="${basket.name}"></td>
+			<td>
+				<span th:if="${basket.image != null}">
+					<img th:src="@{/img/{image}(image=${basket.image})}" class="item_image_list"></img>
+				</span>
+				<span th:if="${basket.image == null}">
+					<img th:src="@{/img/common/no_image.jpg}" class="item_image_list"></img>
+				</span>
+			</td>
+			<td th:text="${basket.price}"></td>
+			<td th:text="${basket.orderNum}"></td>
+			<td th:text="${basket.subtotal}"></td>
+		</tr>
+
+		<tr>
+			<td colspan="3"></td>
+			<th class="total">使用ポイント</th>
+			<td th:text="${session.orderInfo.usePoint}" class="total"></td>
+		</tr>
+
+		<tr>
+			<td colspan="3"></td>
+			<th class="total">合計</th>
+			<td th:text="${session.total}" class="total"></td>
+		</tr>
+	</table>
+
+	<div class="user_info_form_area">
+		<table class="detail_table address">
+			<caption class="table_caption">
+				お届け先
+			</caption>
+			<tr>
+				<th>郵便番号</th>
+				<td th:text="${session.orderInfo.postalCode}"></td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td th:text="${session.orderInfo.address}"></td>
+			</tr>
+			<tr>
+				<th>氏名</th>
+				<td th:text="${session.orderInfo.name}"></td>
+			</tr>
+			<tr>
+				<th>電話番号</th>
+				<td th:text="${session.orderInfo.phoneNumber}"></td>
+			</tr>
+		</table>
+
+		<table class="detail_table pay">
+			<caption class="table_caption">
+				お支払い方法
+			</caption>
+			<tr>
+				<th>お支払い方法</th>
+				<td th:switch="${session.orderInfo.payMethod}">
+					<span th:case="1">クレジットカード</span>
+					<span th:case="2">銀行振り込み</span>
+					<span th:case="3">着払い</span>
+					<span th:case="4">電子マネー</span>
+					<span th:case="5">コンビニ決済</span>
+				</td>
+			</tr>
+		</table>
+		<form method="post" action="/shared_shop/order/regist/complete" >
+			<input class="send_button_eclat" type="submit" value="ご注文の確定" />
+		</form>
+		<form method="post" action="/shared_shop/order/regist/paymentInput">
+			<input class="common_button" type="submit" value="戻る" />
+		</form>
+	</div>
 </body>
 </html>

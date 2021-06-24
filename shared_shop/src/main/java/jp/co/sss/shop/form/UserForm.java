@@ -1,7 +1,9 @@
 package jp.co.sss.shop.form;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -17,14 +19,14 @@ public class UserForm {
 	/**
 	 * 会員ID
 	 */
-	private Integer	id;
+	private Integer id;
 
 	/**
 	 * 会員メールアドレス
 	 */
 	@NotBlank
 	@Email
-	private String	email;
+	private String email;
 
 	/**
 	 * パスワード
@@ -32,14 +34,14 @@ public class UserForm {
 	@NotBlank
 	@Size(min = 8, max = 16)
 	@Pattern(regexp = "^[a-zA-Z0-9]+$")
-	private String	password;
+	private String password;
 
 	/**
 	 * 会員名
 	 */
 	@NotBlank
 	@Size(min = 1, max = 30)
-	private String	name;
+	private String name;
 
 	/**
 	 * 郵便番号
@@ -47,14 +49,14 @@ public class UserForm {
 	@NotBlank
 	@Size(min = 7, max = 8)
 	@Pattern(regexp = "^[0-9]+$", message = "{userRegist.numberpattern.message}")
-	private String	postalCode;
+	private String postalCode;
 
 	/**
 	 * 住所
 	 */
 	@NotBlank
 	@Size(min = 1, max = 150)
-	private String	address;
+	private String address;
 
 	/**
 	 * 電話番号
@@ -62,24 +64,38 @@ public class UserForm {
 	@NotBlank
 	@Size(min = 10, max = 11)
 	@Pattern(regexp = "^[0-9]+$", message = "{userRegist.numberpattern.message}")
-	private String	phoneNumber;
+	private String phoneNumber;
 
 	/**
 	 * 権限
 	 */
 	private Integer authority;
 
-	
 	/**
 	 * 削除フラグ 0:未削除、1:削除済み
 	 */
-	private Integer	 deleteFlag;
+	private Integer deleteFlag;
 	/**
 	 * 登録日付
 	 */
-	private String	insertDate;
+	private String insertDate;
 
-	private Integer	index	= 1;
+	private Integer index = 1;
+
+	/**
+	 * ポイント
+	 */
+	@Min(value = 0)
+	@NotNull
+	private Integer point;
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
 
 	public Integer getId() {
 		return id;
@@ -144,8 +160,6 @@ public class UserForm {
 	public void setAuthority(Integer authority) {
 		this.authority = authority;
 	}
-
-	
 
 	public Integer getDeleteFlag() {
 		return deleteFlag;

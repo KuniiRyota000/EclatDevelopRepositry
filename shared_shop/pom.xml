@@ -56,12 +56,12 @@
 			<groupId>oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<!-- ※AWSへのデプロイ時には下記のコメントアウトを外してください。 -->
-			<!-- <version>12.1.0.2</version> -->
+			<version>12.1.0.2</version>
 			<scope>system</scope>
 			<!-- ※AWSへのデプロイ時には下記をコメントアウトしてください。 -->
-			<systemPath>${basedir}/src/main/resources/lib/ojdbc7.jar</systemPath>
+			<!-- <systemPath>${basedir}/src/main/resources/lib/ojdbc7.jar</systemPath> -->
 			<!-- ※AWSへのデプロイ時には下記のコメントアウトを外してください。 -->
-			<!-- <systemPath>${basedir}/lib/ojdbc7.jar</systemPath> -->
+			<systemPath>${basedir}/lib/ojdbc7.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -80,6 +80,7 @@
 
 	<!-- ojdbc7.jarを読み込めるようにするための設定 -->
 	<!-- ※AWSへのデプロイ時には<dependencyManagement>タグ全体をコメントアウトしてください。 -->
+	<!--
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -89,4 +90,5 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	 -->
 </project>
