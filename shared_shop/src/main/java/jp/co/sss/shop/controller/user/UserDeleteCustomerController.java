@@ -89,10 +89,4 @@ public class UserDeleteCustomerController {
 		return "user/delete/user_detail";
 	}
 
-	@RequestMapping(path = "/delete_back")
-	public String index() {
-
-		return "redirect:/";
-
-	}
 }
