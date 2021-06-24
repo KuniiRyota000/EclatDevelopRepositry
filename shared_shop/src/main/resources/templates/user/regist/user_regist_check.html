@@ -35,14 +35,6 @@
 					<span class="input_title">電話番号</span>
 					<span class="input_value" th:text="${userForm.phoneNumber}"></span>
 				</li>
-				<li>
-					<span class="input_title">権限</span>
-					<span  class="input_value" th:switch="${userForm.authority}">
-						<span th:case="0">システム管理者</span>
-						<span th:case="1">運用管理者</span>
-						<span th:case="2">一般会員</span>
-					</span>
-				</li>
 			</ul>
 			<ul>
 				<li th:each="error:${#fields.detailedErrors()}">
@@ -51,7 +43,7 @@
 			</ul>
 
 
-			<form method="post" th:action="@{/user/regist/complete/admin}" th:object="${userForm}"  class="user_info_form">
+			<form method="post" th:action="@{/user/regist/complete}" th:object="${userForm}"  class="user_info_form">
 				<input type="hidden" name="email" th:value="${userForm.email}" />
 				<input type="hidden" name="password" th:value="${userForm.password}" />
 				<input type="hidden" name="name" th:value="${userForm.name}" />
@@ -61,7 +53,7 @@
 				<input type="hidden" name="authority" th:value="${userForm.authority}" />
 				<input type="submit" value="登録" class="send_button" />
 			</form>
-			<form method="post" th:action="@{/user/regist/input/admin}">
+			<form method="post" th:action="@{/user/regist/input}">
 				<input type="hidden" name="email" th:value="${userForm.email}" />
 				<input type="hidden" name="password" th:value="${userForm.password}" />
 				<input type="hidden" name="name" th:value="${userForm.name}" />

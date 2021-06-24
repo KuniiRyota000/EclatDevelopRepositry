@@ -114,6 +114,7 @@ public class Basket {
 		basketList.add(basket);
 
 		session.setAttribute("basketList", basketList);
+		System.out.println("add basket");
 	}
 
 	/**
@@ -126,6 +127,17 @@ public class Basket {
 		basketList.set(index, basketItem);
 		session.setAttribute("basketList", basketList);
 		upperLimitFlag = 0;
+	}
+
+	/**
+	 * 商品の購入数 -1
+	 */
+	public void subOrderNum(BasketBean basketItem, int index) {
+		basketItem.setOrderNum(basketItem.getOrderNum() -1);
+		int subtotal=basketItem.getPrice()*basketItem.getOrderNum();
+		basketItem.setSubtotal(subtotal);
+		basketList.set(index, basketItem);
+		session.setAttribute("basketList", basketList);
 	}
 
 	/**
