@@ -78,7 +78,7 @@ body > .container {
 
 /* ---- ヘッダー ---- */
 header {
-	background: #87ceeb;
+	background: #93CCBE;
 	padding: 10px 0;
 }
 .admin header {
@@ -132,7 +132,7 @@ header {
 .search .title,
 .main .title,
 .admin_menu_area .title {
-	background-color: #3d98bf;
+	background-color: #5F707E;
 	margin: 0;
 	padding: 5px 8px;
 	color: #fff;
@@ -142,7 +142,7 @@ header {
 
 /* ---- ナビゲーションバー ---- */
 .navi_area {
-	background: #edf9fe;
+	background: #5F707E;
 }
 .navi_menu {
 	width: 960px;
@@ -158,17 +158,18 @@ header {
 	width: 100%;
 	font-size: 1.5em;
 	line-height: 2.5em;
-	border: 1px solid #5fb4d9;
+	border: 0px solid #5fb4d9;
 	text-align: center;
 	text-decoration: none;
-	background: #fff;
-	transition: 0.18s;
+	transition: 1.0s;
+	background: #FFF;
+	color: #5F707E
 }
 .navi_menu a:hover {
-	background: #3d98bf;
+	background: #fff;
 	color: #fff;
 	text-shadow: 1px 1px 1px #12526d;
-	border-color : #3d98bf;
+	background-color : #93ccbe;
 }
 .navi_menu li:first-of-type a{
 	border-radius: 6px 0px 0px 6px;
@@ -329,7 +330,7 @@ aside.admin_menu {
  * footer要素は画面、もしくはページの最下部に表示されるようになります。
  */
 footer {
-	background-color: #87ceeb;
+	background-color: #93CCBE;
 	text-align: center;
 	position: absolute;
 	bottom: 0;
@@ -343,4 +344,83 @@ small {
 	line-height:30px;
 	text-shadow: 1px 1px 1px #fff;
 	font-size: 8pt;
+}
+
+/*廣井*/
+.logout{
+ display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color:#2B2E2E;
+   transition: .4s;
+}
+/*廣井*/
+ .logout:hover {
+  color:#FE0000;
+ }
+
+ /*廣井*/
+  .detail{
+ color:#000000
+}
+
+ /*廣井*/
+.common_button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: #12526d;
+  background-color:#fff;
+  transition: .4s;
+}
+ /*廣井*/
+.common_button:hover {
+  background-color:#bbb7a5;
+  color:white;
+}
+
+/*廣井*/
+ .delete_button{
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: #FFF;
+  background-color:#af3333;
+  background-image: linear-gradient(#6795fd  #67ceff );
+  transition: .4s;
+}
+
+/*廣井*/
+ .delete_button:hover {
+ background-color:#ef0000;
+  color:#FFF;
+}
+
+/*廣井*/
+.underline_transparent:after {
+display: block;
+content: "";
+height: 5px;
+background: -moz-linear-gradient(to right,#93CCBE, transparent);
+background: -webkit-linear-gradient(to right,#93CCBE, transparent);
+background: linear-gradient(to right, #93CCBE, transparent);
+font-size: 1.2em;
+	width: 250px;
+	font-family:initial;
+}
+
+/*廣井*/
+.underline_green{
+border-bottom: 3px solid;
+border-color:#93CCBE;
+	width: 360px;
+	margin-left: auto; /* 中央寄せにするため */
+	margin-right: auto; /* 中央寄せにするため */
+}
+
+/*廣井*/
+.login_font_space{
+	font-weight: 900;
+	padding-top:10px;
+	padding-bottom:10px;
 }

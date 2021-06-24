@@ -29,7 +29,7 @@ function check(){
 				<select name="categoryId">
 					<option th:each="category: ${categories}"
 						th:value="${category.id}" th:text="${category.name}" th:selected="${category.id == selectedCategory}"></option>
-				</select> <input type="submit" value="検索" />
+				</select> <input class ="common_button" type="submit" value="検索" />
 			</form>
 
 			<!-- 商品一覧画面上で表示 -->
@@ -37,7 +37,7 @@ function check(){
 				<select name="categoryId">
 					<option th:each="category: ${categories}"
 						th:value="${category.id}" th:text="${category.name}" th:selected="${category.id == selectedCategory}"></option>
-				</select> <input type="submit" value="検索" />
+				</select> <input class ="common_button" type="submit" value="検索" />
 			</form>
 
 		</div>
@@ -48,14 +48,15 @@ function check(){
 				<p>上限金額</p>
 				<input type="text" name="max" th:value="${param.max}" pattern="^[0-9]+$"/>
 				<p>下限金額</p>
-				<input type="text" name="min" th:value="${param.min}" pattern="^[0-9]+$"/> <input type="submit" value="検索" onclick="return check()" />
+				<input type="text" name="min" th:value="${param.min}" pattern="^[0-9]+$"/> <input class ="common_button" type="submit" value="検索" onclick="return check()" />
 			</form>
 			<!-- 商品一覧画面上で表示 -->
-			<form th:unless="${sortType == null}" th:action="@{/item/list/price/} + ${sortType}">
+			<form th:unless="${sortType == null}" th:action="@{/item/list/price/} + ${sortType}" name="serchPriceCheck">
 				<p>上限金額</p>
 				<input type="text" name="max" th:value="${param.max}" pattern="^[0-9]+$"/>
 				<p>下限金額</p>
-				<input type="text" name="min" th:value="${param.min}" pattern="^[0-9]+$" /> <input type="submit" value="検索" />
+
+				<input type="text" name="min" th:value="${param.min}" pattern="^[0-9]+$" /> <input class ="common_button" type="submit" value="検索" onclick="return check()"/>
 			</form>
 		</div>
 	</div>

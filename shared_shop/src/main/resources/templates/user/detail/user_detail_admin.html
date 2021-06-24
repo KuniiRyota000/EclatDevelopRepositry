@@ -29,6 +29,10 @@
 					<span class="input_title">電話番号</span>
 					<span class="input_value" th:text="${user.phoneNumber}"></span>
 				</li>
+				<li th:if="${session.user.authority == 1 && user.authority==2}">
+					<span class="input_title">ポイント</span>
+					<span class="input_value" th:text="${user.point}"></span>
+				</li>
 				<li>
 					<span class="input_title">権限</span>
 					<span  class="input_value" th:switch="${user.authority}">

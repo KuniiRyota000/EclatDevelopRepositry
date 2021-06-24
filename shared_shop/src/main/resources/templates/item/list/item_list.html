@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{common/layout_5block :: layout(~{::body/content()})}">
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
 <head>
 <title>シェアードショップ</title>
 <meta charset="UTF-8" />
@@ -33,12 +33,9 @@
 </tr>
 <tr th:each="item:${items}">
 <td><span th:if="${item.image != null}">
-						<img th:src="@{/img/{image}(image=${item.image})}" class="item_image_list"
-
-						></img>
+						<img th:src="@{/img/{image}(image=${item.image})}" class="item_image_list"></img>
 					</span>
 					<span th:if="${item.image == null}">
-<!-- common/no_image.jpg -->
 					<img th:src="@{/img/common/no_image.jpg}" class="item_image_list"></img>
 					</span>
                  </td>
@@ -52,19 +49,19 @@
 			<ul class="paging"  th:if="!${#lists.isEmpty(items)}">
 				<li th:class="${pages.first} ? 'disabled':''" >
 					<span th:if="${pages.first}">&lt;&lt;</span>
-					<a th:if="${not pages.first}" th:href="@{${url}(page=0)}">&lt;&lt;</a>
+					<a th:if="${not pages.first}" th:href="@{${url}(page=0,max=${param.max},min=${param.min})}">&lt;&lt;</a>
 				</li>
 				<li th:each='i : ${#numbers.sequence(0, pages.totalPages-1)}'
 					th:class="(${i}==${pages.number})? 'active' : ''" >
 					<span th:if='${i}==${pages.number}' th:text='${i+1}'>1</span>
-					<a th:if='${i}!=${pages.number}' th:href="@{${url}(page=${i})}">
+					<a th:if='${i}!=${pages.number}' th:href="@{${url}(page=${i},max=${param.max},min=${param.min})}">
 						<span th:text='${i+1}'>1</span>
 					</a>
 				</li>
 				<li th:class="${pages.last} ? 'disabled':''" >
 					<span th:if="${pages.last}">&gt;&gt;</span>
 					<a th:if="${not pages.last}"
-						th:href="@{${url}(page=(${pages.totalPages}-1))}">&gt;&gt;</a>
+						th:href="@{${url}(page=(${pages.totalPages}-1),max=${param.max},min=${param.min})}">&gt;&gt;</a>
 				</li>
 			</ul>
 </body>
