@@ -42,7 +42,7 @@
 			</form>
 				<form th:action="@{/user/update/input}" method="post" th:if="${user.authority == 2}">
 				<input type="hidden" name="id" th:value="${user.id}" />
-				<input type="submit" value="変更" class="common_button"/>
+				<input type="submit" value="変更" class="send_button_eclat"/>
 			</form>
 
 			<form th:action="@{/user/delete/check}" method="post" th:if="${user.authority == 2}">
