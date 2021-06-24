@@ -21,8 +21,11 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public Page<Item> findByDeleteFlagOrderByInsertDateDesc(int deleteFlag, Pageable pageable);
 
 	//価格帯曖昧検索
-	@Query("SELECT i FROM Item i WHERE price BETWEEN :minPrice AND :maxPrice")
-	public Page<Item> findByPriceBetween(Integer minPrice, Integer maxPrice, Pageable pageable);
+	@Query(value = "SELECT * FROM items WHERE  price between ?1 AND ?2", countQuery = "SELECT count(*) FROM items  WHERE  price between ?1 AND ?2", nativeQuery = true)
+	Page<Item> findByPriceBetween(Integer minPrice, Integer maxPrice, Pageable pageable);
+
+	@Query(value = "SELECT * FROM items WHERE price >= ?1", countQuery = "SELECT count(*) FROM items  WHERE price >= ?1", nativeQuery = true)
+	Page<Item> findByMinOrHigher(Integer minPrice, Pageable pageable);
 
 	//商品情報を売れ筋順で検索
 	public Page<Item> findByDeleteFlagOrderBySalesFiguresDesc(int deleteFlag, Pageable pageable);
