@@ -49,7 +49,7 @@
 			<ul class="paging"  th:if="!${#lists.isEmpty(items)}">
 				<li th:class="${pages.first} ? 'disabled':''" >
 					<span th:if="${pages.first}">&lt;&lt;</span>
-					<a th:if="${not pages.first}" th:href="@{${url}(page=0),max=${param.max},min=${param.min}}">&lt;&lt;</a>
+					<a th:if="${not pages.first}" th:href="@{${url}(page=0,max=${param.max},min=${param.min})}">&lt;&lt;</a>
 				</li>
 				<li th:each='i : ${#numbers.sequence(0, pages.totalPages-1)}'
 					th:class="(${i}==${pages.number})? 'active' : ''" >
@@ -61,7 +61,7 @@
 				<li th:class="${pages.last} ? 'disabled':''" >
 					<span th:if="${pages.last}">&gt;&gt;</span>
 					<a th:if="${not pages.last}"
-						th:href="@{${url}(page=(${pages.totalPages}-1))}">&gt;&gt;</a>
+						th:href="@{${url}(page=(${pages.totalPages}-1),max=${param.max},min=${param.min})}">&gt;&gt;</a>
 				</li>
 			</ul>
 </body>
