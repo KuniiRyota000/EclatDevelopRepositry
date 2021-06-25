@@ -48,6 +48,7 @@ public class BasketCustomerController extends Basket{
 
 		BasketBean basketItem=new BasketBean();
 
+		//買い物かごに同じ商品がある場合：注文数 +1
 		if(!basketList.isEmpty()) {
 		for(int i = 0; i < basketList.size(); i++) {
 			basketItem = basketList.get(i);
@@ -69,6 +70,7 @@ public class BasketCustomerController extends Basket{
 			return "redirect:/basket";
 		}
 
+		//買い物かごのに商品を追加
 		addBasket(item);
 
 		return "redirect:/basket";

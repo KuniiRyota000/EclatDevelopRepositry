@@ -1,5 +1,8 @@
 package jp.co.sss.shop.controller.user;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -84,9 +87,10 @@ public class UserRegistCustomerController {
 	 *
 	 * @param form 会員情報
 	 * @return "redirect:/user/regist/complete" 会員情報 登録完了画面へ
+	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/user/regist/complete", method = RequestMethod.POST)
-	public String registComplete(@ModelAttribute UserForm form) {
+	public String registComplete(@ModelAttribute UserForm form) throws ParseException {
 		// 会員情報の生成
 		User user = new User();
 		//権限に2を追加
@@ -94,6 +98,15 @@ public class UserRegistCustomerController {
 		//新規会員のためポイントは0
 		form.setPoint(0);
 		form.setDeleteFlag(0);
+
+		java.util.Date now = new java.util.Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String nowDate = sdf.format(now);
+		now = sdf.parse(nowDate);
+		java.sql.Date sqlNowDate = new java.sql.Date(now.getTime());
+		nowDate = sdf.format(sqlNowDate);
+
+		form.setInsertDate(nowDate);
 
 		// 入力値を会員情報にコピー
 		BeanUtils.copyProperties(form, user);
@@ -111,7 +124,7 @@ public class UserRegistCustomerController {
 		// セッションスコープにログインしたユーザの情報を登録
 		session.setAttribute("user", userBean);
 
-		return "redirect:/user/regist/complete";
+		return "redirect:/user/regist/complete_regist";
 	}
 
 	/**
@@ -120,7 +133,7 @@ public class UserRegistCustomerController {
 	 * @param form 会員情報
 	 * @return "user/regist/user_regist_complete" 会員情報 登録完了画面へ
 	 */
-	@RequestMapping(path = "/user/regist/complete", method = RequestMethod.GET)
+	@RequestMapping(path = "/user/regist/complete_regist", method = RequestMethod.GET)
 	public String registCompleteRedirect() {
 		return "user/regist/user_regist_complete";
 
