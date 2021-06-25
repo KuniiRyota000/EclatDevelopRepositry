@@ -29,7 +29,7 @@
 					</li>
 				</ul>
 				<input type="hidden" name="id" th:value="${categoryForm.id}"/>
-				<input type="submit" value="確認" class="send_button" />
+				<input type="submit" value="確認" class="send_button_eclat" />
 			</form>
 		    <form method="post" th:action="@{/category/detail/{id}(id=${categoryForm.id})}">
 				<input type="hidden" name="id" th:value="${categoryForm.id}"/>
