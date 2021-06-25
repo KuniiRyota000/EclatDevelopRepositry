@@ -16,42 +16,42 @@
 					<li>
 						<label>
 							<span class="input_title">メールアドレス</span>
-							<input type="text" name="email" th:value="${user.email}"/>
+							<input type="text" name="email" th:value="${user.email}"placeholder="例：tarou＠example.co.jp"/>
 						</label>
 
 					</li>
 					<li>
 						<label>
 							<span class="input_title">パスワード</span>
-							<input type="password" name="password" th:value="${user.password}"/>
+							<input type="password" name="password" th:value="${user.password}"placeholder="半角英数字で記入ください" />
 						</label>
 
 					</li>
 					<li>
 						<label>
 							<span class="input_title">氏名</span>
-							<input type="text" name="name" th:value="${user.name}"/>
+							<input type="text" name="name" th:value="${user.name}"placeholder="氏名を入力してください"/>
 						</label>
 
 					</li>
 					<li>
 						<label>
 							<span class="input_title">郵便番号</span>
-							<input type="text" name="postalCode" th:value="${user.postalCode}"/>
+							<input type="text" name="postalCode" th:value="${user.postalCode}"placeholder="例：0123456"/>
 						</label>
 
 					</li>
 					<li>
 						<label>
 							<span class="input_title">住所</span>
-							<textarea name="address" rows="6" th:text="${user.address}"></textarea>
+							<textarea name="address" rows="6" th:text="${user.address}"placeholder="例：東京都　××区　△-△-△　ABCマンション2階"></textarea>
 						</label>
 
 					</li>
 					<li>
 						<label>
 							<span class="input_title">電話番号</span>
-							<input type="text" name="phoneNumber" th:value="${user.phoneNumber}"/>
+							<input type="text" name="phoneNumber" th:value="${user.phoneNumber}"placeholder="例：0311112222"/>
 						</label>
 
 					</li>
