@@ -23,7 +23,7 @@
 				<input type="hidden" name="id" th:value="${categoryForm.id}" />
 				<input type="hidden" name="name" th:value="${categoryForm.name}" />
 				<input type="hidden" name="description" th:value="${categoryForm.description}" />
-				<input type="submit" value="登録" class="send_button" />
+				<input type="submit" value="登録" class="send_button_eclat" />
 			</form>
 			<form th:action="@{/category/update/input}" method="post">
 				<input type="hidden" name="backFlg" value="true" />
