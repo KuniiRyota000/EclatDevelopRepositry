@@ -147,6 +147,14 @@ public class BasketCustomerController extends Basket{
 	}
 
 	/**
+	 * お届け先入力画面へ戻る
+	 */
+	@RequestMapping(path="/order/regist/addressInput/back", method = RequestMethod.POST)
+	public String backrderAddressInput(OrderForm form) {
+		return orderAddressInput(form);
+	}
+
+	/**
 	 * 注文情報セッションにお届け先入力情報登録 --> 支払方法選択画面にリダイレクト
 	 */
 	@RequestMapping(path="/regist/addressInputComplete", method = RequestMethod.POST)
