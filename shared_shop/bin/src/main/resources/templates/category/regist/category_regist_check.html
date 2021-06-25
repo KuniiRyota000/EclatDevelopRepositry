@@ -23,9 +23,9 @@
 			<form method="post" th:action="@{/category/regist/complete}" class="user_info_form">
 				<input type="hidden" name="name" th:value="${categoryForm.name}" />
 				<input type="hidden" name="description" th:value="${categoryForm.description}" />
-				<input type="submit" value="登録" class="send_button" />
+				<input type="submit" value="登録" class="send_button_eclat" />
 			</form>
-			
+
 			<form method="post" th:action="@{/category/regist/input}">
 				<input type="hidden" name="name" th:value="${categoryForm.name}" />
 				<input type="hidden" name="description" th:value="${categoryForm.description}" />
