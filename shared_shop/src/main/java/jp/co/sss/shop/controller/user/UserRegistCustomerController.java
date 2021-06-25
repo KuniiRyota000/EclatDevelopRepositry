@@ -93,6 +93,7 @@ public class UserRegistCustomerController {
 		form.setAuthority(2);
 		//新規会員のためポイントは0
 		form.setPoint(0);
+		form.setDeleteFlag(0);
 
 		// 入力値を会員情報にコピー
 		BeanUtils.copyProperties(form, user);
